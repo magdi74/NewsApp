@@ -7,14 +7,14 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface ApiServiceInterface {
-    @GET("/v2/top-headlines")
+    @GET("v2/top-headlines")
     fun getTopHeadlines(
         @Query("apikey") apiKey: String = Constants.API_KEY,
         @Query("language") country: String = "en",
         @Query("page") page: Int = 1
     ) : Call<ArticlesResponse>
 
-    @GET("/v2/everything")
+    @GET("v2/everything")
     fun getEverything(
         @Query("apikey") apiKey: String = Constants.API_KEY,
         @Query("language") country: String = "en",
