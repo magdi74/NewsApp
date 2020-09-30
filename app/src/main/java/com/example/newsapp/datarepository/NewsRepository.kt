@@ -21,12 +21,12 @@ object NewsRepository {
         apiServices = retrofit.create(ApiServiceInterface::class.java)
     }
 
-    fun fetchNewsHeadlines(
+    fun fetchHeadlines(
         page: Int,
         onSuccess: (headlines: MutableList<Article>) -> Unit,
         onError: () -> Unit
     ){
-        apiServices.getHeadlines(page = page)
+        apiServices.getTopHeadlines(page = page)
             .enqueue(object: Callback<ArticlesResponse>{
                 override fun onResponse(
                     call: Call<ArticlesResponse>,
@@ -42,7 +42,4 @@ object NewsRepository {
                 override fun onFailure(call: Call<ArticlesResponse>, t: Throwable) = onError.invoke()
             })
     }
-
-
-
 }

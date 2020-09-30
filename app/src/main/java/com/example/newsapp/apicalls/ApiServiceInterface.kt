@@ -8,7 +8,7 @@ import retrofit2.http.Query
 
 interface ApiServiceInterface {
     @GET("/v2/top-headlines")
-    fun getHeadlines(
+    fun getTopHeadlines(
         @Query("apikey") apiKey: String = Constants.API_KEY,
         @Query("language") country: String = "en",
         @Query("page") page: Int = 1
