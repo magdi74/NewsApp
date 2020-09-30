@@ -10,7 +10,7 @@ interface ApiServiceInterface {
     @GET("v2/top-headlines")
     fun getTopHeadlines(
         @Query("apikey") apiKey: String = Constants.API_KEY,
-        @Query("language") country: String = "en",
+        @Query("language") language: String = "en",
         @Query("page") page: Int = 1
     ) : Call<ArticlesResponse>
 
