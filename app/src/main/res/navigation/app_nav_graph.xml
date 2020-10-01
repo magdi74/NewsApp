@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.example.newsappinkotlin.ui.destinations.SplashFragment"
+        android:name="com.example.newsapp.ui.destinations.SplashFragment"
         android:label="fragment_splash"
         tools:layout="@layout/fragment_splash" >
         <action
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/headlinesFragment"
-        android:name="com.example.newsappinkotlin.ui.destinations.HeadlinesFragment"
+        android:name="com.example.newsapp.ui.HeadlinesFragment"
         android:label="fragment_headlines"
         tools:layout="@layout/fragment_headlines" >
         <action
@@ -29,7 +29,7 @@
     </fragment>
     <fragment
         android:id="@+id/savedItemsFragment"
-        android:name="com.example.newsappinkotlin.ui.destinations.SavedItemsFragment"
+        android:name="com.example.newsapp.ui.destinations.SavedItemsFragment"
         android:label="fragment_saved_items"
         tools:layout="@layout/fragment_saved_items" >
         <action
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/itemDetailsFragment"
-        android:name="com.example.newsappinkotlin.ui.destinations.ItemDetailsFragment"
+        android:name="com.example.newsapp.ui.destinations.ItemDetailsFragment"
         android:label="fragment_item_details"
         tools:layout="@layout/fragment_item_details" />
 
