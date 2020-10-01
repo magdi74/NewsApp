@@ -1,4 +1,4 @@
-package com.example.newsappinkotlin.ui.destinations
+package com.example.newsapp.ui.destinations
 import android.os.Bundle
 import android.os.Handler
 import androidx.fragment.app.Fragment
