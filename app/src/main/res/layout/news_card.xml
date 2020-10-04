@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:elevation="4dp"
+    app:cardCornerRadius="10dp"
+    android:layout_margin="4dp"
+    app:cardBackgroundColor="#f7f9f6">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_height="150dp"
+        android:layout_width="match_parent"
+        >
+
+        <ImageView
+            android:id="@+id/article_poster"
+            android:layout_width="109dp"
+            android:layout_marginLeft="20dp"
+            android:layout_height="114dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@mipmap/ic_launcher_round" />
+
+        <TextView
+            android:id="@+id/article_headline"
+            android:layout_width="0dp"
+            android:textSize="26sp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="12dp"
+            android:textStyle="bold"
+            android:text="Headline"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/article_poster"
+            app:layout_constraintTop_toTopOf="@id/article_poster"            />
+
+        <TextView
+            android:id="@+id/article_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:alpha="0.7"
+            android:text="2h"
+            app:layout_constraintStart_toEndOf="@+id/dot"
+            app:layout_constraintBottom_toBottomOf="@id/article_poster" />
+
+        <TextView
+            android:id="@+id/dot"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:textSize="20sp"
+            android:alpha="0.7"
+            android:text="•"
+            app:layout_constraintStart_toEndOf="@+id/article_source"
+            app:layout_constraintBottom_toBottomOf="@id/article_poster" />
+
+        <TextView
+            android:id="@+id/article_source"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="8dp"
+            android:alpha="0.7"
+            android:text="CNN.com"
+            app:layout_constraintStart_toEndOf="@+id/article_poster"
+            app:layout_constraintBottom_toBottomOf="@id/article_poster" />
+
+        <ImageButton
+            android:id="@+id/ext_menu"
+            android:layout_width="21dp"
+            android:layout_height="28dp"
+            android:layout_marginRight="10dp"
+            android:background="#FFF"
+            android:src="@drawable/menu"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/article_poster" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
