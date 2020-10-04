@@ -16,6 +16,10 @@ class HeadlinesFragment : Fragment(), HeadlinesAdapter.HeadlineListener {
         savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_headlines, container, false)
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+    }
+
     override fun headlineClicked(id: Int) {
 
         Toast.makeText(context, id , Toast.LENGTH_SHORT).show()
