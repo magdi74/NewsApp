@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.newsapp.R
 import android.widget.Toast
-import com.example.newsapp.Adapters.HeadlinesAdapter
+import com.example.newsapp.adapters.HeadlinesAdapter
 
 
 class HeadlinesFragment : Fragment(), HeadlinesAdapter.HeadlineListener {
