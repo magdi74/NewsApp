@@ -18,14 +18,53 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //val navController = findNavController(this, R.id.bottomNavMenu)
+        /*//val navController = findNavController(this, R.id.bottomNavMenu)
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavMenu)
 
-        bottomNav?.setupWithNavController(navController)
+        bottomNav?.setupWithNavController(navController)*/
+
+
+        bottomNavMenu.setOnNavigationItemSelectedListener { item ->
+            when(item.itemId)
+            {
+                R.id.headlinesFragment ->
+                {
+                    var fragManager = supportFragmentManager
+                    fragManager.beginTransaction().show(headLinesFrag).hide(savedFrag).commit()
+                    true
+                }
+                R.id.savedItemsFragment ->
+                {
+                    var fragManager = supportFragmentManager
+                    fragManager.beginTransaction().show(savedFrag).hide(headLinesFrag).commit()
+                    true
+                }
+                else -> false
+            }
+
+        }
 
     }
 
-    private val navListener = object:BottomNavigationView.OnNavigationItemSelectedListener {
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /*private val navListener = object:BottomNavigationView.OnNavigationItemSelectedListener {
         override fun onNavigationItemSelected(@NonNull item: MenuItem):Boolean {
             var selectedFragment: Fragment? = null
             when (item.getItemId()) {
@@ -37,5 +76,5 @@ class MainActivity : AppCompatActivity() {
             ).commit()
             return true
         }
-    }
+    }*/
 }
