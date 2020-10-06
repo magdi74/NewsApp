@@ -1,29 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".MainActivity">
-    
-    <fragment
-        android:id="@+id/fragment_container"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        class="androidx.navigation.fragment.NavHostFragment"
-        android:layout_marginBottom="60dp"
-        app:navGraph="@navigation/app_nav_graph"
-        app:defaultNavHost="true"
-        />
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:orientation="horizontal">
+
+        <fragment
+            android:id="@+id/headLinesFrag"
+            android:name="com.example.newsapp.ui.HeadlinesFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_headlines" />
+
+        <fragment
+            android:id="@+id/savedFrag"
+            android:name="com.example.newsapp.ui.destinations.SavedItemsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_saved_items" />
+    </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavMenu"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:background="#FFF"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_nav_menu"/>
+        app:menu="@menu/bottom_nav_menu" />
 
-    
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
