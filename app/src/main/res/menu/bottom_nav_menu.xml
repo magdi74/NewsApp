@@ -7,5 +7,6 @@
     <item
         android:id="@+id/savedItemsFragment"
         android:title="Saved"
-        android:icon="@drawable/all_bookmarks"/>
+        android:icon="@drawable/ic_saved"/>
+
 </menu>

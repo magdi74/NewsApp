@@ -23,6 +23,7 @@ class HeadlinesAdapter(private val List: MutableList<Item>, val Listener: Headli
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentItem =List[position]
+        var saveState = 0
 
         holder.imageView.setImageResource(currentItem.imageResource)
         holder.textView1.text=currentItem.newsHeadline
@@ -30,6 +31,18 @@ class HeadlinesAdapter(private val List: MutableList<Item>, val Listener: Headli
         holder.textView3.text=currentItem.newsSource
 
         holder.itemView.setOnClickListener({Listener.headlineClicked(1)})
+
+        holder.itemView.btn_save.setOnClickListener({
+            if (saveState == 0) {
+                holder.itemView.btn_save.setImageResource(R.drawable.ic_saved)
+                saveState = 1
+            }
+            else{
+                holder.itemView.btn_save.setImageResource(R.drawable.ic_unsaved)
+                saveState = 0
+            }
+
+        })
 
     }
 

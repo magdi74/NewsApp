@@ -71,7 +71,7 @@
 
 
         <ImageButton
-            android:id="@+id/share_button"
+            android:id="@+id/btn_share"
             android:layout_width="33dp"
             android:layout_height="33dp"
             android:layout_marginEnd="96dp"
@@ -82,7 +82,7 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <ImageButton
-            android:id="@+id/bookmark_button"
+            android:id="@+id/btn_save"
             android:layout_width="33dp"
             android:layout_height="33dp"
             android:layout_marginBottom="8dp"
@@ -91,7 +91,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.508"
-            app:layout_constraintStart_toEndOf="@id/share_button" />
+            app:layout_constraintStart_toEndOf="@id/btn_share" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
