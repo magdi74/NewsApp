@@ -35,7 +35,7 @@
             android:textStyle="bold"
             android:text="Headline"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            app:layout_constraintEnd_toStartOf="@id/btn_save"
+            app:layout_constraintEnd_toStartOf="@id/btnSave"
             app:layout_constraintStart_toEndOf="@+id/article_poster"
             app:layout_constraintTop_toTopOf="@id/article_poster"
             android:layout_margin="10dp"/>
@@ -81,7 +81,7 @@
             app:layout_constraintBottom_toBottomOf="@id/article_poster" />
 
         <ImageButton
-            android:id="@+id/btn_save"
+            android:id="@+id/btnSave"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginRight="10dp"

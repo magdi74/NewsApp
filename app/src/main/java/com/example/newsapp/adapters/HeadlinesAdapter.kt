@@ -8,37 +8,36 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.example.newsapp.Item
 import com.example.newsapp.R
 import com.example.newsapp.models.Article
+import com.example.newsapp.saveState
 import kotlinx.android.synthetic.main.news_card.view.*
 
 
 class HeadlinesAdapter(private val List: MutableList<Article>?, var Listener: HeadlineListener):
     RecyclerView.Adapter<HeadlinesAdapter.NewsViewHolder>() {
     public interface HeadlineListener {
-        fun headlineClicked(article: Article)
+        fun headlineClicked(article: Article,position: Int)
     }
     inner class NewsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        fun onBind(article: Article){
+        fun onBind(article: Article,position: Int){
             itemView.article_headline.text= article.title
-            itemView.article_source.text = article.source.toString()
+            itemView.article_source.text = article.source.name
             itemView.article_date.text = article.publishedAt
             Glide.with(itemView).load(article.imageUrl).transform(CenterCrop()).into(itemView.article_poster)
-            var saveState = 0
 
-            itemView.setOnClickListener({Listener.headlineClicked(article)})
+            itemView.setOnClickListener({Listener.headlineClicked(article,position)})
 
-            itemView.btn_save.setOnClickListener({
-                if (saveState == 0) {
-                    itemView.btn_save.setImageResource(R.drawable.ic_saved)
-                    saveState = 1
+            itemView.btnSave.setOnClickListener{
+                if (article.saved == false) {
+                    itemView.btnSave.setImageResource(R.drawable.ic_saved)
+                    article.saved = true
                 }
                 else{
-                    itemView.btn_save.setImageResource(R.drawable.ic_unsaved)
-                    saveState = 0
+                    itemView.btnSave.setImageResource(R.drawable.ic_unsaved)
+                    article.saved = false
                 }
-            })
+            }
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder
@@ -46,7 +45,7 @@ class HeadlinesAdapter(private val List: MutableList<Article>?, var Listener: He
     override fun getItemCount(): Int= List!!.size
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        holder.onBind(List!![position])
+        holder.onBind(List!![position],position)
     }
 
     fun appendNews(articles : List<Article>)

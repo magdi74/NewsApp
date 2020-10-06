@@ -22,6 +22,13 @@
             tools:layout="@layout/fragment_headlines" />
 
         <fragment
+            android:id="@+id/detailsFrag"
+            android:name="com.example.newsapp.ui.destinations.ItemDetailsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_item_details" />
+
+        <fragment
             android:id="@+id/savedFrag"
             android:name="com.example.newsapp.ui.destinations.SavedItemsFragment"
             android:layout_width="match_parent"
