@@ -69,30 +69,29 @@
             app:layout_constraintStart_toStartOf="@id/container2"
             app:layout_constraintTop_toBottomOf="@id/headline_details" />
 
-        <ImageButton
-            android:id="@+id/bookmark_button"
-            android:layout_width="33dp"
-            android:layout_height="33dp"
-            android:layout_marginEnd="48dp"
-            android:background="#e6ecec"
-            android:src="@drawable/bookmark_this"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.91" />
 
         <ImageButton
             android:id="@+id/share_button"
             android:layout_width="33dp"
             android:layout_height="33dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="96dp"
+            android:layout_marginBottom="8dp"
             android:background="#e6ecec"
             android:src="@drawable/share"
-            app:layout_constraintBottom_toBottomOf="@+id/bookmark_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageButton
+            android:id="@+id/bookmark_button"
+            android:layout_width="33dp"
+            android:layout_height="33dp"
+            android:layout_marginBottom="8dp"
+            android:background="#e6ecec"
+            android:src="@drawable/ic_unsaved"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/bookmark_button"
-            app:layout_constraintTop_toTopOf="@+id/bookmark_button" />
+            app:layout_constraintHorizontal_bias="0.508"
+            app:layout_constraintStart_toEndOf="@id/share_button" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

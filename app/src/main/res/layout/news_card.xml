@@ -80,12 +80,11 @@
             app:layout_constraintBottom_toBottomOf="@id/article_poster" />
 
         <ImageButton
-            android:id="@+id/ext_menu"
-            android:layout_width="21dp"
-            android:layout_height="28dp"
+            android:id="@+id/btn_save"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="10dp"
-            android:background="#FFF"
-            android:src="@drawable/menu"
+            android:src="@drawable/ic_unsaved"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/article_poster" />
 
