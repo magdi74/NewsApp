@@ -73,7 +73,7 @@ object NewsRepository {
 
     fun updateSavedArticles(context: Context, article: ArticleEntity){
         database = ArticlesDatabase.getDatabaseInstance(context).ArticlesDao()
-        database.insertArticles(article)
+        database.updateArticleSaveStatus(article)
     }
 
     private fun setSavedStatus(apiEntities: MutableList<ArticleEntity>, saved: MutableList<ArticleEntity>): MutableList<ArticleEntity>{
