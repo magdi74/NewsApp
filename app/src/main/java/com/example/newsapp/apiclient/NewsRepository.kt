@@ -11,7 +11,7 @@ import com.example.newsapp.models.ArticlesResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+//Handle fresh install and no network
 object NewsRepository {
     private var apiClient = NewsClient.apiServices
 
