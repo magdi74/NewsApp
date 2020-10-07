@@ -11,7 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object NewsClient {
-    private var apiServices: ApiServiceInterface
+    var apiServices: ApiServiceInterface
     init{
         val  retrofit = Retrofit
             .Builder()
