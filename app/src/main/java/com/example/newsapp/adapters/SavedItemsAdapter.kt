@@ -8,54 +8,52 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.example.newsapp.Item
 import com.example.newsapp.R
 import com.example.newsapp.models.Article
-import com.example.newsapp.saveState
-import com.example.newsapp.savedlistTest
 import kotlinx.android.synthetic.main.news_card.view.*
 
 
-class HeadlinesAdapter(private val List: MutableList<Article>?, var Listener: HeadlineListener):
-    RecyclerView.Adapter<HeadlinesAdapter.NewsViewHolder>() {
-    public interface HeadlineListener {
-        fun headlineClicked(article: Article,position: Int)
+class SavedItemsAdapter(private val List: MutableList<Article>?, var Listener: SavedItemsListener):
+    RecyclerView.Adapter<SavedItemsAdapter.NewsViewHolder>() {
+    public interface SavedItemsListener {
+        fun savedItemsClicked(article: Article)
     }
     inner class NewsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        fun onBind(article: Article,position: Int){
+        fun onBind(article: Article){
             itemView.article_headline.text= article.title
-            itemView.article_source.text = article.source.name
+            itemView.article_source.text = article.source.toString()
             itemView.article_date.text = article.publishedAt
             Glide.with(itemView).load(article.imageUrl).transform(CenterCrop()).into(itemView.article_poster)
+            var saveState = 0
 
-            itemView.setOnClickListener({Listener.headlineClicked(article,position)})
+            itemView.setOnClickListener({Listener.savedItemsClicked(article)})
 
-            itemView.btnSave.setOnClickListener{
-                if (article.saved == false) {
+     /**       itemView.btnSave.setOnClickListener({
+                if (saveState == 0) {
                     itemView.btnSave.setImageResource(R.drawable.ic_saved)
-                    article.saved = true
-                    savedlistTest.add(article)
+                    saveState = 1
                 }
                 else{
                     itemView.btnSave.setImageResource(R.drawable.ic_unsaved)
-                    article.saved = false
-                    savedlistTest.remove(article)
+                    saveState = 0
                 }
-            }
+            }) **/
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder
-            = NewsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.news_card,parent,false))
+            = NewsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.saved_articles_card,parent,false))
     override fun getItemCount(): Int= List!!.size
 
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
-        holder.onBind(List!![position],position)
+        holder.onBind(List!![position])
     }
 
-    fun appendNews(articles : List<Article>)
+ /**   fun appendNews(articles : List<Article>)
     {
         this.List!!.addAll(articles)
         notifyItemRangeInserted(this.List!!.size,this.List.size-1)
-    }
+    } **/
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val imageView: ImageView = itemView.article_poster
@@ -64,8 +62,6 @@ class HeadlinesAdapter(private val List: MutableList<Article>?, var Listener: He
         val textView3: TextView = itemView.article_date
 
     }
-
-
 
 
 }
