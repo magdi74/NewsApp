@@ -81,8 +81,8 @@ object NewsRepository {
     //mmkn yedrab error hena
         for(i in 0 until apiEntities.size){
             for(j in 0 until saved.size){
-                if(apiEntities[i].url==saved[i].url){
-                    articleEntities.add(saved[i])
+                if(apiEntities[i].url==saved[j].url){
+                    articleEntities.add(saved[j])
                 }
                 else{
                    articleEntities.add(apiEntities[i])
