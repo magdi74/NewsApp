@@ -1,6 +1,6 @@
 package com.example.newsapp.apicalls
 
-import com.example.newsapp.constants.Constants
+import com.example.newsapp.tools.Constants
 import com.example.newsapp.models.ArticlesResponse
 import retrofit2.Call
 import retrofit2.http.GET
