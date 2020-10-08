@@ -1,7 +1,7 @@
 package com.example.newsapp.apiclient
 
 import com.example.newsapp.apicalls.ApiServiceInterface
-import com.example.newsapp.constants.Constants
+import com.example.newsapp.tools.Constants
 import com.example.newsapp.models.Article
 import com.example.newsapp.models.ArticlesResponse
 import retrofit2.Call
@@ -11,7 +11,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object NewsClient {
-    private var apiServices: ApiServiceInterface
+    var apiServices: ApiServiceInterface
     init{
         val  retrofit = Retrofit
             .Builder()
