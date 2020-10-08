@@ -11,6 +11,15 @@ class ArticlesViewModel: ViewModel() {
     var headlinesMutableLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
     var savedMutableLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
 
+    fun getHeadlines(context: Context){
+        fun onComplete(mutableList: MutableList<ArticleEntity>) {
+            headlinesMutableLiveData.postValue((mutableList))
+        }
 
+        fun onIncomplete(mutableList: MutableList<ArticleEntity>) {
+            headlinesMutableLiveData.postValue(mutableList)
+        }
+        NewsRepository.getAllArticles(context, ::onComplete, ::onIncomplete)
+    }
 
 }
