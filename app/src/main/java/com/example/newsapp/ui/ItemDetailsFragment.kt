@@ -12,11 +12,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.content.ContextCompat.getSystemServiceName
-import com.example.newsapp.MainActivity
-import com.example.newsapp.R
-import com.example.newsapp.articleMain
+import com.example.newsapp.*
 import com.example.newsapp.models.Article
-import com.example.newsapp.saveState
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_headlines.*
 import kotlinx.android.synthetic.main.fragment_item_details.*
@@ -38,11 +35,13 @@ class ItemDetailsFragment : Fragment() {
                 btnSave.setImageResource(R.drawable.ic_saved)
                 articleMain.saved=true
                 saveState = 1
+                savedlistTest.add(articleMain)
             }
             else{
                 btnSave.setImageResource(R.drawable.ic_unsaved)
                 articleMain.saved = false
                 saveState = 0
+                savedlistTest.remove(articleMain)
             }
         }
         return view
