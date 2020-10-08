@@ -9,21 +9,22 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.newsapp.R
+import com.example.newsapp.database.ArticleEntity
 import com.example.newsapp.models.Article
 import com.example.newsapp.saveState
 import com.example.newsapp.savedlistTest
 import kotlinx.android.synthetic.main.news_card.view.*
 
 
-class HeadlinesAdapter(private val List: MutableList<Article>?, var Listener: HeadlineListener):
+class HeadlinesAdapter(private val List: MutableList<ArticleEntity>?, var Listener: HeadlineListener):
     RecyclerView.Adapter<HeadlinesAdapter.NewsViewHolder>() {
     public interface HeadlineListener {
-        fun headlineClicked(article: Article,position: Int)
+        fun headlineClicked(article: ArticleEntity,position: Int)
     }
     inner class NewsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        fun onBind(article: Article,position: Int){
+        fun onBind(article: ArticleEntity,position: Int){
             itemView.article_headline.text= article.title
-            itemView.article_source.text = article.source.name
+            itemView.article_source.text = article.source!!.name
             itemView.article_date.text = article.publishedAt
             Glide.with(itemView).load(article.imageUrl).transform(CenterCrop()).into(itemView.article_poster)
 
@@ -33,12 +34,12 @@ class HeadlinesAdapter(private val List: MutableList<Article>?, var Listener: He
                 if (article.saved == false) {
                     itemView.btnSave.setImageResource(R.drawable.ic_saved)
                     article.saved = true
-                    savedlistTest.add(article)
+                    //savedlistTest.add(article)
                 }
                 else{
                     itemView.btnSave.setImageResource(R.drawable.ic_unsaved)
                     article.saved = false
-                    savedlistTest.remove(article)
+                   // savedlistTest.remove(article)
                 }
             }
         }
@@ -51,7 +52,7 @@ class HeadlinesAdapter(private val List: MutableList<Article>?, var Listener: He
         holder.onBind(List!![position],position)
     }
 
-    fun appendNews(articles : List<Article>)
+    fun appendNews(articles : List<ArticleEntity>)
     {
         this.List!!.addAll(articles)
         notifyItemRangeInserted(this.List!!.size,this.List.size-1)
