@@ -19,13 +19,15 @@ object NewsRepository {
 
     var articlesList: MutableList<ArticleEntity> = mutableListOf()
 
-    fun getAllArticles(context: Context): LiveData<MutableList<ArticleEntity>> {
+    fun getAllArticles(context: Context,
+    onSuccess: (entities: MutableList<ArticleEntity>) ->  Unit,
+    onFailure: (entities: MutableList<ArticleEntity>) -> Unit) {
 
         var articlesMutableLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
 
         if(articlesList.isNotEmpty()){
-            articlesMutableLiveData.postValue(articlesList)
-            return articlesMutableLiveData
+            //articlesMutableLiveData.postValue(articlesList)
+            onSuccess.invoke(articlesList)
         }
 
         database = ArticlesDatabase.getDatabaseInstance(context).ArticlesDao()
@@ -46,29 +48,26 @@ object NewsRepository {
 
                     database.insertArticles(dataset)
 
-                    articlesMutableLiveData.postValue(dataset)
+                    onSuccess.invoke(dataset)
+
+                 //   articlesMutableLiveData.postValue(dataset)
                 }
                 else{
-                    articlesMutableLiveData.postValue(database.getCachedArticles())
+                    //articlesMutableLiveData.postValue(database.getCachedArticles())
+                    onSuccess.invoke(database.getCachedArticles())
                 }
             }
 
             override fun onFailure(call: Call<ArticlesResponse>, t: Throwable) {
-                articlesMutableLiveData.postValue(database.getCachedArticles())
+                //articlesMutableLiveData.postValue(database.getCachedArticles())
+                onFailure(database.getCachedArticles())
             }
         })
-
-        return articlesMutableLiveData
     }
 
-    fun getSavedArticles(context: Context): LiveData<MutableList<ArticleEntity>>{
+    fun getSavedArticles(context: Context, onLoaded: (savedArticles: MutableList<ArticleEntity>) -> Unit){
         database = ArticlesDatabase.getDatabaseInstance(context).ArticlesDao()
-
-        var savedMutableLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
-
-        savedMutableLiveData.postValue(database.getSavedArticles())
-
-        return savedMutableLiveData
+        onLoaded.invoke(database.getSavedArticles())
     }
 
     fun updateSavedArticles(context: Context, article: ArticleEntity){
