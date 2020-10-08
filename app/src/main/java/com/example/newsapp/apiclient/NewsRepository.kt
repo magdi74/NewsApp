@@ -8,9 +8,11 @@ import com.example.newsapp.database.ArticlesDAO
 import com.example.newsapp.database.ArticlesDatabase
 import com.example.newsapp.models.Article
 import com.example.newsapp.models.ArticlesResponse
+import com.example.newsapp.models.Source
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+
 //Handle fresh install and no network
 object NewsRepository {
     private var apiClient = NewsClient.apiServices
@@ -47,7 +49,6 @@ object NewsRepository {
                     var dataset = setSavedStatus(apiEntity,savedFromDatabase)
 
                     database.insertArticles(dataset)
-
                     onSuccess.invoke(dataset)
 
                  //   articlesMutableLiveData.postValue(dataset)
@@ -97,7 +98,7 @@ object NewsRepository {
             var model = modelList[i]
             entityList.add(
                 ArticleEntity(
-                    source = model.source,
+                    source = Source(model.source.id, model.source.name),
                     author = model.author,
                     title = model.title,
                     description = model.description,
