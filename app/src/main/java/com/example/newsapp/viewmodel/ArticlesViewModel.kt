@@ -22,4 +22,12 @@ class ArticlesViewModel: ViewModel() {
         NewsRepository.getAllArticles(context, ::onComplete, ::onIncomplete)
     }
 
+    fun getSavedHeadlines(context: Context){
+        fun onLoaded(mutableList: MutableList<ArticleEntity>) {
+            savedMutableLiveData.postValue(mutableList)
+        }
+        NewsRepository.getSavedArticles(context, ::onLoaded)
+
+    }
+
 }
