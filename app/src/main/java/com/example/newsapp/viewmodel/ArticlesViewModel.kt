@@ -30,4 +30,8 @@ class ArticlesViewModel: ViewModel() {
 
     }
 
+    fun updateArticle(context: Context, article: ArticleEntity){
+        NewsRepository.updateSavedArticles(context, article)
+    }
+
 }
