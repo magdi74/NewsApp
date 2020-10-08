@@ -11,6 +11,8 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.view.get
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -18,7 +20,9 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.newsapp.adapters.HeadlinesAdapter
 import com.example.newsapp.adapters.SavedItemsAdapter
 import com.example.newsapp.apiclient.NewsClient
+import com.example.newsapp.database.ArticleEntity
 import com.example.newsapp.models.Article
+import com.example.newsapp.viewmodel.ArticlesViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_headlines.*
 import kotlinx.android.synthetic.main.fragment_item_details.*
@@ -34,16 +38,30 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
     lateinit var llm: LinearLayoutManager
     var currentPageNumber = 1
     lateinit var newsAdapter: HeadlinesAdapter
+    lateinit var viewModel: ArticlesViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        viewModel = ViewModelProvider(this).get(ArticlesViewModel::class.java)
+
         /*//val navController = findNavController(this, R.id.bottomNavMenu)
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavMenu)
-
         bottomNav?.setupWithNavController(navController)*/
+
+        viewModel.headlinesMutableLiveData.observe(this, object: Observer<MutableList<ArticleEntity>> {
+            override fun onChanged(t: MutableList<ArticleEntity>?) {
+                if( t!= null ){
+                    newsAdapter.appendNews(t)
+                    newsAdapter.notifyDataSetChanged()
+                    attachonScrollListner()
+                }
+            }
+
+        })
+
         savedlistTest = ArrayList()
         newsAdapter = HeadlinesAdapter(mutableListOf(), this)
         llm = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -51,7 +69,8 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         rv_headlines.adapter = newsAdapter
         rv_headlines.layoutManager = llm
 
-        NewsClient.fetchHeadlines(currentPageNumber, ::onSuccess, ::onError)
+        viewModel.getHeadlines(applicationContext)
+    //    NewsClient.fetchHeadlines(currentPageNumber, ::onSuccess, ::onError)
 
 
 
@@ -91,7 +110,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         Toast.makeText(this, "Failed to fetch article", Toast.LENGTH_SHORT).show()
     }
 
-    private fun onSuccess(list: MutableList<Article>) {
+    private fun onSuccess(list: MutableList<ArticleEntity>) {
         newsAdapter.appendNews(list)
         attachonScrollListner()
     }
@@ -107,18 +126,20 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                 if (firstVisibleArticle + visibleArticles >= totalArticles / 2) {
                     rv_headlines.removeOnScrollListener(this)
                     currentPageNumber++
-                    NewsClient.fetchHeadlines(currentPageNumber, ::onSuccess, ::onError)
+           //         NewsClient.fetchHeadlines(currentPageNumber, ::onSuccess, ::onError)
+
+                    viewModel.getHeadlines(applicationContext)
                 }
             }
         })
 
     }
-    override fun headlineClicked(article: Article,position: Int) {
-        articleMain= article
+    override fun headlineClicked(article: ArticleEntity,position: Int) {
+      //  articleMain= article
         headline_details.text = article.title
         description.text = article.description
         article_date_details.text = article.publishedAt
-        article_source_details.text = article.source.name
+        article_source_details.text = article.source!!.name
         Glide.with(this).load(article.imageUrl).transform(CenterCrop()).into(banner)
         if(article.saved==true)
         {
