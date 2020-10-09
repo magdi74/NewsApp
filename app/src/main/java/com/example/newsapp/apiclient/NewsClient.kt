@@ -20,26 +20,4 @@ object NewsClient {
             .build()
         apiServices = retrofit.create(ApiServiceInterface::class.java)
     }
-
-    fun fetchHeadlines(
-        page: Int,
-        onSuccess: (headlines: MutableList<Article>) -> Unit,
-        onError: () -> Unit
-    ){
-        apiServices.getTopHeadlines(page = page)
-            .enqueue(object: Callback<ArticlesResponse>{
-                override fun onResponse(
-                    call: Call<ArticlesResponse>,
-                    response: Response<ArticlesResponse>
-                ) {
-                    if(response.isSuccessful){
-                        if(response.body() != null)
-                            onSuccess.invoke(response.body()!!.articles)
-                    }
-                    else onError.invoke()
-                }
-
-                override fun onFailure(call: Call<ArticlesResponse>, t: Throwable) = onError.invoke()
-            })
-    }
 }
