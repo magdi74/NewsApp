@@ -105,7 +105,7 @@ object NewsRepository {
     }
 
     fun updateArticles(article: ArticleEntity){
-        appDatabase.ArticlesDao().updateArticleSaveStatus(article.saved!!, article.url)
+        appDatabase.ArticlesDao().updateArticleSaveStatus(article)
     }
 
     private fun setSavedStatus(apiEntities: MutableList<ArticleEntity>, saved: MutableList<ArticleEntity>): MutableList<ArticleEntity>{
