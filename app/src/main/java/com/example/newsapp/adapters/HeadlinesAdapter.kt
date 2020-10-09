@@ -7,19 +7,20 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.newsapp.R
+import com.example.newsapp.database.ArticleEntity
 import com.example.newsapp.models.Article
 import kotlinx.android.synthetic.main.news_card.view.*
 
 
-class HeadlinesAdapter(private val List: MutableList<Article>?, var Listener: HeadlineListener):
+class HeadlinesAdapter(private val List: MutableList<ArticleEntity>?, var Listener: HeadlineListener):
     RecyclerView.Adapter<HeadlinesAdapter.NewsViewHolder>() {
 
     interface HeadlineListener {
-        fun headlineClicked(article: Article)
+        fun headlineClicked(article: ArticleEntity)
     }
 
     inner class NewsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        fun onBind(article: Article){
+        fun onBind(article: ArticleEntity){
             itemView.article_headline.text= article.title
             itemView.article_source.text = article.source.name
             itemView.article_date.text = article.publishedAt
