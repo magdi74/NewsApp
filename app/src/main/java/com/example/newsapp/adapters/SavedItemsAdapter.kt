@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.example.newsapp.Item
 import com.example.newsapp.R
 import com.example.newsapp.models.Article
 import kotlinx.android.synthetic.main.news_card.view.*
