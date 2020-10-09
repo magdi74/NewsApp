@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:elevation="4dp"
-    app:cardCornerRadius="10dp"
     android:layout_margin="4dp"
-    app:cardBackgroundColor="#f7f9f6">
+    android:elevation="4dp"
+    app:cardBackgroundColor="#f7f9f6"
+    app:cardCornerRadius="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_height="150dp"
         android:layout_width="match_parent"
-        >
+        android:layout_height="150dp">
 
         <ImageView
             android:id="@+id/article_poster"
             android:layout_width="109dp"
-            android:layout_marginLeft="20dp"
             android:layout_height="114dp"
+            android:layout_marginLeft="20dp"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -28,57 +27,57 @@
         <TextView
             android:id="@+id/article_headline"
             android:layout_width="0dp"
-            android:textSize="26sp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:textStyle="bold"
             android:text="Headline"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textSize="26sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/article_poster"
-            app:layout_constraintTop_toTopOf="@id/article_poster"            />
+            app:layout_constraintTop_toTopOf="@id/article_poster" />
 
         <TextView
             android:id="@+id/article_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:alpha="0.7"
             android:text="2h"
-            app:layout_constraintStart_toEndOf="@+id/dot"
-            app:layout_constraintBottom_toBottomOf="@id/article_poster" />
+            app:layout_constraintBottom_toBottomOf="@id/article_poster"
+            app:layout_constraintStart_toEndOf="@+id/dot" />
 
         <TextView
             android:id="@+id/dot"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:textSize="20sp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:alpha="0.7"
             android:text="•"
-            app:layout_constraintStart_toEndOf="@+id/article_source"
-            app:layout_constraintBottom_toBottomOf="@id/article_poster" />
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/article_poster"
+            app:layout_constraintStart_toEndOf="@+id/article_source" />
 
         <TextView
             android:id="@+id/article_source"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
             android:alpha="0.7"
             android:text="CNN.com"
-            app:layout_constraintStart_toEndOf="@+id/article_poster"
-            app:layout_constraintBottom_toBottomOf="@id/article_poster" />
+            app:layout_constraintBottom_toBottomOf="@id/article_poster"
+            app:layout_constraintStart_toEndOf="@+id/article_poster" />
 
         <ImageButton
             android:layout_width="60dp"
