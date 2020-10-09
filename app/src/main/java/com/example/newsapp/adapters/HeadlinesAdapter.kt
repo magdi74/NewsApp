@@ -59,7 +59,7 @@ class HeadlinesAdapter(private val List: MutableList<ArticleEntity>?, var Listen
         holder.onBind(List!![position],position)
     }
 
-    fun appendNews(articles : List<ArticleEntity>)
+    fun appendNews(articles : MutableList<ArticleEntity>)
     {
         this.List!!.addAll(articles)
         notifyItemRangeInserted(this.List!!.size,this.List.size-1)

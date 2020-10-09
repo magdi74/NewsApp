@@ -12,7 +12,7 @@ import com.example.newsapp.database.ArticleEntity
 class ArticlesViewModel(application: Application) : AndroidViewModel(application){
 
     init {
-        // Ensue database is initialized whenever ViewModel is created.
+        // Ensure database is initialized whenever ViewModel is created.
         NewsRepository.initDataBase(application)
     }
 
@@ -24,33 +24,7 @@ class ArticlesViewModel(application: Application) : AndroidViewModel(application
         return NewsRepository.getSavedArticles()
     }
 
-    fun updateSaved(): LiveData<MutableList<ArticleEntity>>{
-        return NewsRepository.updateArticles()
+    fun updateSaved(article:ArticleEntity){
+        return NewsRepository.updateArticles(article)
     }
-
-
-    /*
-    fun getHeadlines(context: Context){
-        fun onComplete(mutableList: MutableList<ArticleEntity>) {
-            headlinesMutableLiveData.postValue((mutableList))
-        }
-
-        fun onIncomplete(mutableList: MutableList<ArticleEntity>) {
-            headlinesMutableLiveData.postValue(mutableList)
-        }
-        NewsRepository.getAllArticles(context)
-    }
-
-    fun getSavedHeadlines(context: Context){
-        fun onLoaded(mutableList: MutableList<ArticleEntity>) {
-            savedMutableLiveData.postValue(mutableList)
-        }
-        NewsRepository.getSavedArticles(context, ::onLoaded)
-
-    }
-
-    fun updateArticle(context: Context, article: ArticleEntity){
-        NewsRepository.updateSavedArticles(context, article)
-    }
-*/
 }
