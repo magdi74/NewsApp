@@ -2,29 +2,14 @@ package com.example.newsapp
 
 import android.content.ClipData
 import android.content.ClipboardManager
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import android.widget.Adapter
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.core.view.get
-import androidx.fragment.app.FragmentManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.newsapp.adapters.HeadlinesAdapter
 import com.example.newsapp.adapters.SavedItemsAdapter
-import com.example.newsapp.apiclient.NewsClient
 import com.example.newsapp.models.Article
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_headlines.*
-import kotlinx.android.synthetic.main.fragment_item_details.*
-import kotlinx.android.synthetic.main.fragment_item_details.view.*
-import kotlinx.android.synthetic.main.fragment_saved_items.*
-import java.text.FieldPosition
 
 class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, SavedItemsAdapter.SavedItemsListener {
 
@@ -51,7 +36,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
     }
 
 
-    override fun headlineClicked(article: Article,position: Int) {
+    override fun headlineClicked(article: Article) {
 
     }
 
