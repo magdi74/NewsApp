@@ -22,7 +22,7 @@ class HeadlinesAdapter(private val List: MutableList<ArticleEntity>?, var Listen
     inner class NewsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         fun onBind(article: ArticleEntity){
             itemView.article_headline.text= article.title
-            itemView.article_source.text = article.source.name
+            itemView.article_source.text = article.source!!.name
             itemView.article_date.text = article.publishedAt
             Glide.with(itemView).load(article.imageUrl).transform(CenterCrop()).into(itemView.article_poster)
 
