@@ -23,7 +23,8 @@ class ArticlesViewModel(application: Application) : AndroidViewModel(application
         return NewsRepository.getSavedArticles()
     }
 
-    fun updateSaved(){
+    fun updateSaved(article: ArticleEntity){
+        NewsRepository.updateArticles(article)
     }
 
 
