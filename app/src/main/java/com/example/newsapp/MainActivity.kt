@@ -6,16 +6,35 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.adapters.HeadlinesAdapter
 import com.example.newsapp.adapters.SavedItemsAdapter
+import com.example.newsapp.database.ArticleEntity
 import com.example.newsapp.models.Article
+import com.example.newsapp.viewmodel.ArticlesViewModel
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_headlines.*
 
 class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, SavedItemsAdapter.SavedItemsListener {
+
+    private val articlesViewModel: ArticlesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        var headlinesAdapter = HeadlinesAdapter(mutableListOf(), this)
+        var headlinesLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
+
+        rv_headlines.adapter = headlinesAdapter
+        rv_headlines.layoutManager = headlinesLayoutManager
+
+        articlesViewModel.getNews()
+            .observe(this, Observer{
+                rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
+            })
 
         bottomNavMenu!!.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -36,11 +55,11 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
     }
 
 
-    override fun headlineClicked(article: Article) {
+    override fun headlineClicked(article: ArticleEntity) {
 
     }
 
-    override fun savedItemsClicked(article: Article) {
+    override fun savedItemsClicked(article: ArticleEntity) {
 
     }
 
