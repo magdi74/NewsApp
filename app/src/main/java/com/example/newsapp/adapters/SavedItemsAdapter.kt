@@ -22,7 +22,7 @@ class SavedItemsAdapter(private val List: MutableList<Article>?, var Listener: S
     inner class NewsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
         fun onBind(article: Article){
             itemView.article_headline.text= article.title
-            itemView.article_source.text = article.source.toString()
+            itemView.article_source.text = article.source.name.toString()
             itemView.article_date.text = article.publishedAt
             Glide.with(itemView).load(article.imageUrl).transform(CenterCrop()).into(itemView.article_poster)
             var saveState = 0
