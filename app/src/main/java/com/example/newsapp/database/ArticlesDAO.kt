@@ -1,7 +1,6 @@
 package com.example.newsapp.database
 
 import androidx.room.*
-import com.example.newsapp.models.Article
 
 @Dao
 interface ArticlesDAO {
@@ -15,5 +14,5 @@ interface ArticlesDAO {
     fun getCachedArticles(): MutableList<ArticleEntity>
 
     @Update()
-    fun updateArticleSaveStatus(article: ArticleEntity)
+    fun updateArticleSaveStatus(article: MutableList<ArticleEntity>)
 }

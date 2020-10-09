@@ -35,19 +35,12 @@
         <action
             android:id="@+id/action_savedItemsFragment_to_itemDetailsFragment"
             app:destination="@id/itemDetailsFragment" />
-        <action
-            android:id="@+id/action_savedItemsFragment_to_headlinesFragment"
-            app:destination="@id/headlinesFragment" />
     </fragment>
     <fragment
         android:id="@+id/itemDetailsFragment"
         android:name="com.example.newsapp.ui.destinations.ItemDetailsFragment"
         android:label="fragment_item_details"
-        tools:layout="@layout/fragment_item_details" >
-        <action
-            android:id="@+id/action_itemDetailsFragment_to_headlinesFragment"
-            app:destination="@id/headlinesFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_item_details" />
 
 
 </navigation>

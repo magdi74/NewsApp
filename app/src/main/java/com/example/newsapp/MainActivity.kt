@@ -4,45 +4,39 @@ package com.example.newsapp
 
 import android.content.ClipData
 import android.content.ClipboardManager
-import android.os.Build
+import android.graphics.Insets.add
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
-import android.widget.Adapter
 import android.widget.Toast
 import androidx.activity.viewModels
 
-import androidx.annotation.RequiresApi
-import androidx.core.view.get
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.newsapp.adapters.HeadlinesAdapter
 import com.example.newsapp.adapters.SavedItemsAdapter
-import com.example.newsapp.apiclient.NewsClient
 import com.example.newsapp.database.ArticleEntity
 import com.example.newsapp.models.Article
 import com.example.newsapp.viewmodel.ArticlesViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_headlines.*
 import kotlinx.android.synthetic.main.fragment_item_details.*
-import kotlinx.android.synthetic.main.fragment_item_details.view.*
 import kotlinx.android.synthetic.main.fragment_saved_items.*
-import java.text.FieldPosition
 
-lateinit var articleMain : Article
-lateinit var savedlistTest : ArrayList<Article>
+//lateinit var articleMain : ArticleEntity
+//lateinit var savedlistTest : ArrayList<ArticleEntity>
 var saveState = 0
 
 class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, SavedItemsAdapter.SavedItemsListener {
     lateinit var llm: LinearLayoutManager
 
     var currentPageNumber = 1
-    lateinit var newsAdapter: HeadlinesAdapter
+   // lateinit var newsAdapter: HeadlinesAdapter
 
     private val mainViewModel: ArticlesViewModel by viewModels()
 
@@ -53,8 +47,26 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
         mainViewModel.getNews()
             .observe(this, Observer {
-                rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?,this)
-                saved_rv.adapter = SavedItemsAdapter(List = it as MutableList<Article>?, this)
+                rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
+                attachonScrollListner()
+                // saved_rv.adapter = SavedItemsAdapter(List = it as MutableList<Article>?, this)
+            })
+
+        mainViewModel.getSavedArticles()
+            .observe(this, Observer {
+               // rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?,this)
+              //  mainViewModel.updateSaved()
+              //  savedlistTest = it as ArrayList<ArticleEntity>
+                saved_rv.adapter = SavedItemsAdapter(it, this)
+
+            })
+
+        mainViewModel.updateSaved()
+            .observe(this, Observer {
+                //rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?,this)
+
+                attachonScrollListner()
+                // saved_rv.adapter = SavedItemsAdapter(List = it as MutableList<Article>?, this)
             })
 
         /*//val navController = findNavController(this, R.id.bottomNavMenu)
@@ -72,7 +84,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
         })
 */
-        newsAdapter = HeadlinesAdapter(mutableListOf(), this)
+       // newsAdapter = HeadlinesAdapter(mutableListOf(), this)
         llm = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
       //  rv_headlines.adapter = newsAdapter
@@ -86,6 +98,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         bottomNavMenu!!.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.headlinesFragment -> {
+                    mainViewModel.getNews()
                     var fragManager = supportFragmentManager
                     fragManager.beginTransaction().show(headLinesFrag).hide(savedFrag).hide(detailsFrag).commit()
                     /* if(articleMain.saved==true)
@@ -99,10 +112,11 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                     true
                 }
                 R.id.savedItemsFragment -> {
+                    mainViewModel.getSavedArticles()
                   //  var SavedAdapter: SavedItemsAdapter = SavedItemsAdapter(savedlistTest,this)
                     var llm_saved: LinearLayoutManager =
                         LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-                  //  saved_rv.adapter = SavedAdapter
+                 //   saved_rv.adapter = SavedAdapter
                     saved_rv.layoutManager = llm_saved
                     var fragManager = supportFragmentManager
                     fragManager.beginTransaction().show(savedFrag).hide(headLinesFrag).hide(detailsFrag).commit()
@@ -167,7 +181,8 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
 
     fun copyText(view: View){
-        copyToClipboard(articleMain.url.toString())
+        lateinit var article: ArticleEntity
+        copyToClipboard(article.url.toString())
         Toast.makeText(this, "Link copied to clipboard", Toast.LENGTH_SHORT).show()
     }
 
@@ -178,22 +193,29 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
     }
 
-    override fun savedItemsClicked(article: Article) {
-        articleMain= article
+    override fun savedItemsClicked(article: ArticleEntity) {
+      //  articleMain= article
+        mainViewModel.getSavedArticles()
         headline_details.text = article.title
         description.text = article.description
         article_date_details.text = article.publishedAt
-        article_source_details.text = article.source.name
+        article_source_details.text = article.source?.name
         Glide.with(this).load(article.imageUrl).transform(CenterCrop()).into(banner)
         if(article.saved==true)
         {
+
             detailsFrag.btnSave.setImageResource(R.drawable.ic_saved)
-            saveState=1
+            var articleSaved = true
+            article.saved=true
+            saveState = 1
+
         }
         else
         {
             detailsFrag.btnSave.setImageResource(R.drawable.ic_unsaved)
+            article.saved=false
             saveState=0
+
         }
         var fragment : FragmentManager = supportFragmentManager
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()

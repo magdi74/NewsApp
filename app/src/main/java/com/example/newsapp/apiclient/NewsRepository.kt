@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.newsapp.database.ArticleEntity
-import com.example.newsapp.database.ArticlesDAO
 import com.example.newsapp.database.ArticlesDatabase
 import com.example.newsapp.models.Article
 import com.example.newsapp.models.ArticlesResponse
@@ -17,7 +16,6 @@ import retrofit2.Response
 object NewsRepository {
     private var apiClient = NewsClient.apiServices
 
-    private lateinit var database: ArticlesDAO
     private lateinit var appDatabase: ArticlesDatabase
 
     var articlesList: MutableList<ArticleEntity> = mutableListOf()
@@ -83,6 +81,28 @@ object NewsRepository {
     }
     fun initDataBase(context: Context) {
         appDatabase = ArticlesDatabase.getDatabaseInstance(context)
+    }
+
+    fun getSavedArticles(): LiveData<MutableList<ArticleEntity>>{
+
+        val newsListLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
+
+        var savedList: MutableList<ArticleEntity> = mutableListOf()
+        savedList = appDatabase.ArticlesDao().getSavedArticles()
+
+        if (savedList.isNotEmpty()) {
+            newsListLiveData.postValue(savedList)
+        }
+        return newsListLiveData
+
+    }
+    fun updateArticles(): LiveData<MutableList<ArticleEntity>>{
+        val newsListLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
+        var updateList: MutableList<ArticleEntity> = mutableListOf()
+        appDatabase.ArticlesDao().updateArticleSaveStatus(updateList)
+
+        newsListLiveData.postValue(updateList)
+        return newsListLiveData
     }
 
 /*

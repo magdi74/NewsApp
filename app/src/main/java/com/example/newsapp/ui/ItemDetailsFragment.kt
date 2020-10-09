@@ -33,15 +33,15 @@ class ItemDetailsFragment : Fragment() {
         view.btnSave.setOnClickListener{ item ->
             if (saveState == 0) {
                 btnSave.setImageResource(R.drawable.ic_saved)
-                articleMain.saved=true
+               // articleMain.saved=true
                 saveState = 1
-                savedlistTest.add(articleMain)
+              //  savedlistTest.add(articleMain)
             }
             else{
                 btnSave.setImageResource(R.drawable.ic_unsaved)
-                articleMain.saved = false
+               // articleMain.saved = false
                 saveState = 0
-                savedlistTest.remove(articleMain)
+               // savedlistTest.remove(articleMain)
             }
         }
         return view

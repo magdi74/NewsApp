@@ -10,12 +10,14 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.newsapp.R
 import com.example.newsapp.database.ArticleEntity
+import com.example.newsapp.database.ArticlesDatabase
 import com.example.newsapp.models.Article
 import com.example.newsapp.saveState
-import com.example.newsapp.savedlistTest
+//import com.example.newsapp.savedlistTest
 import kotlinx.android.synthetic.main.news_card.view.*
 
-
+lateinit var list : ArrayList<ArticleEntity>
+lateinit var database: ArticlesDatabase
 class HeadlinesAdapter(private val List: MutableList<ArticleEntity>?, var Listener: HeadlineListener):
     RecyclerView.Adapter<HeadlinesAdapter.NewsViewHolder>() {
     public interface HeadlineListener {
@@ -32,13 +34,18 @@ class HeadlinesAdapter(private val List: MutableList<ArticleEntity>?, var Listen
 
             itemView.btnSave.setOnClickListener{
                 if (article.saved == false) {
+
                     itemView.btnSave.setImageResource(R.drawable.ic_saved)
                     article.saved = true
+                  //  database.ArticlesDao().updateArticleSaveStatus(article as MutableList<ArticleEntity>)
+                   // list.add(article)
                     //savedlistTest.add(article)
                 }
                 else{
                     itemView.btnSave.setImageResource(R.drawable.ic_unsaved)
                     article.saved = false
+                  //  database.ArticlesDao().updateArticleSaveStatus(article as MutableList<ArticleEntity>)
+
                    // savedlistTest.remove(article)
                 }
             }

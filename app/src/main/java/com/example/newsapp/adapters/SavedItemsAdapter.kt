@@ -8,19 +8,19 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.example.newsapp.Item
 import com.example.newsapp.R
-import com.example.newsapp.models.Article
+import com.example.newsapp.database.ArticleEntity
 import kotlinx.android.synthetic.main.news_card.view.*
 
 
-class SavedItemsAdapter(private val List: MutableList<Article>?, var Listener: SavedItemsListener):
+class SavedItemsAdapter(private val List: MutableList<ArticleEntity>?, var Listener: SavedItemsListener):
     RecyclerView.Adapter<SavedItemsAdapter.NewsViewHolder>() {
     public interface SavedItemsListener {
-        fun savedItemsClicked(article: Article)
+        fun savedItemsClicked(article: ArticleEntity)
     }
     inner class NewsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        fun onBind(article: Article){
+
+        fun onBind(article: ArticleEntity){
             itemView.article_headline.text= article.title
             itemView.article_source.text = article.source.toString()
             itemView.article_date.text = article.publishedAt

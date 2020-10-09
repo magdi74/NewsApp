@@ -20,6 +20,13 @@ class ArticlesViewModel(application: Application) : AndroidViewModel(application
         return NewsRepository.getNews()
     }
 
+    fun getSavedArticles(): LiveData<MutableList<ArticleEntity>>{
+        return NewsRepository.getSavedArticles()
+    }
+
+    fun updateSaved(): LiveData<MutableList<ArticleEntity>>{
+        return NewsRepository.updateArticles()
+    }
 
 
     /*
