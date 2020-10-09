@@ -91,7 +91,7 @@ object NewsRepository {
         val newsListLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
 
         var savedList: MutableList<ArticleEntity> = mutableListOf()
-        savedList = appDatabase.ArticlesDao().getCachedArticles()
+        savedList = appDatabase.ArticlesDao().getSavedArticles()
 
         if (savedList.isNotEmpty()) {
             Log.d("saved","Got Cached")
