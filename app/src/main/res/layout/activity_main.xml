@@ -34,6 +34,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layout="@layout/fragment_saved_items" />
+
+        <fragment
+            android:id="@+id/web_frag"
+            android:name="com.example.newsapp.ui.webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_webview" />
     </LinearLayout>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView

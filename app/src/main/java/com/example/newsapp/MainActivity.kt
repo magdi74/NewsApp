@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.webkit.WebViewClient
 import android.widget.Adapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -24,6 +25,7 @@ import kotlinx.android.synthetic.main.fragment_headlines.*
 import kotlinx.android.synthetic.main.fragment_item_details.*
 import kotlinx.android.synthetic.main.fragment_item_details.view.*
 import kotlinx.android.synthetic.main.fragment_saved_items.*
+import kotlinx.android.synthetic.main.fragment_webview.*
 import java.text.FieldPosition
 
 var saveState = 0
@@ -59,7 +61,8 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
             when (item.itemId) {
                 R.id.headlinesFragment -> {
                     var fragManager = supportFragmentManager
-                    fragManager.beginTransaction().show(headLinesFrag).hide(savedFrag).hide(detailsFrag).commit()
+                    fragManager.beginTransaction().show(headLinesFrag).hide(savedFrag)
+                        .hide(detailsFrag).commit()
                     /* if(articleMain.saved==true)
                     {
                         headLinesFrag.btnSave.setImageResource(R.drawable.ic_saved)
@@ -73,19 +76,22 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                 R.id.savedItemsFragment -> {
                     lateinit var llm_saved: LinearLayoutManager
                     lateinit var SavedAdapter: SavedItemsAdapter
-                    SavedAdapter = SavedItemsAdapter(savedlistTest,this)
-                    llm_saved = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+                    SavedAdapter = SavedItemsAdapter(savedlistTest, this)
+                    llm_saved = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
                     saved_rv.adapter = SavedAdapter
                     saved_rv.layoutManager = llm_saved
                     var fragManager = supportFragmentManager
-                    fragManager.beginTransaction().show(savedFrag).hide(headLinesFrag).hide(detailsFrag).commit()
+                    fragManager.beginTransaction().show(savedFrag).hide(headLinesFrag)
+                        .hide(detailsFrag).commit()
                     true
                 }
                 else -> false
             }
 
         }
+
     }
+
 
     private fun onError() {
         Toast.makeText(this, "Failed to fetch article", Toast.LENGTH_SHORT).show()
@@ -113,63 +119,65 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         })
 
     }
-    override fun headlineClicked(article: Article,position: Int) {
-        articleMain= article
+
+    override fun headlineClicked(article: Article, position: Int) {
+        articleMain = article
         headline_details.text = article.title
         description.text = article.description
         article_date_details.text = article.publishedAt
         article_source_details.text = article.source.name
         Glide.with(this).load(article.imageUrl).transform(CenterCrop()).into(banner)
-        if(article.saved==true)
-        {
+        if (article.saved == true) {
             detailsFrag.btnSave.setImageResource(R.drawable.ic_saved)
-            saveState=1
-        }
-        else
-        {
+            saveState = 1
+        } else {
             detailsFrag.btnSave.setImageResource(R.drawable.ic_unsaved)
-            saveState=0
+            saveState = 0
         }
-        var fragment : FragmentManager
+        var fragment: FragmentManager
         fragment = supportFragmentManager
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
 
     }
 
 
-    fun copyText(view: View){
+    fun copyText(view: View) {
         copyToClipboard(articleMain.url.toString())
         Toast.makeText(this, "Link copied to clipboard", Toast.LENGTH_SHORT).show()
     }
 
-    fun copyToClipboard(text:CharSequence){
-        val clipboard: ClipboardManager =getSystemService(CLIPBOARD_SERVICE)  as ClipboardManager
-        val clip:ClipData = ClipData.newPlainText("Link copied to Clipboard",text)
+    fun copyToClipboard(text: CharSequence) {
+        val clipboard: ClipboardManager = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        val clip: ClipData = ClipData.newPlainText("Link copied to Clipboard", text)
         clipboard?.setPrimaryClip(clip)
 
     }
 
     override fun savedItemsClicked(article: Article) {
-        articleMain= article
+        articleMain = article
         headline_details.text = article.title
         description.text = article.description
         article_date_details.text = article.publishedAt
         article_source_details.text = article.source.name
         Glide.with(this).load(article.imageUrl).transform(CenterCrop()).into(banner)
-        if(article.saved==true)
-        {
+        if (article.saved == true) {
             detailsFrag.btnSave.setImageResource(R.drawable.ic_saved)
-            saveState=1
-        }
-        else
-        {
+            saveState = 1
+        } else {
             detailsFrag.btnSave.setImageResource(R.drawable.ic_unsaved)
-            saveState=0
+            saveState = 0
         }
-        var fragment : FragmentManager
+        var fragment: FragmentManager
         fragment = supportFragmentManager
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
     }
+
+    override fun onBackPressed() {
+        if (web_frag.web_view.canGoBack())web_frag.web_view.goBack()else
+        super.onBackPressed()
+    }
+
+
 }
 
 
