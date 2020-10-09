@@ -11,8 +11,8 @@ interface ArticlesDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertArticles(article: ArticleEntity)
 
-    @Query("Select * from articles_table where saved = 'true'")
-    fun getSavedArticles(): MutableList<ArticleEntity>
+    @Query("Select * from articles_table where saved = :saveStatus")
+    fun getSavedArticles(saveStatus: Boolean = true): MutableList<ArticleEntity>
 
     @Query("Select * from articles_table")
     fun getCachedArticles(): MutableList<ArticleEntity>
