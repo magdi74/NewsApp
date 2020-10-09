@@ -21,10 +21,6 @@ import kotlinx.android.synthetic.main.fragment_headlines.*
 
 class HeadlinesFragment : Fragment()   {
 
-    var currentPageNumber = 1
-    lateinit var newsAdapter: HeadlinesAdapter
-    lateinit var llm: LinearLayoutManager
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,16 +30,4 @@ class HeadlinesFragment : Fragment()   {
 
         return view
     }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
-
-
-
 }
