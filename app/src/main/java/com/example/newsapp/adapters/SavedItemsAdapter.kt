@@ -49,11 +49,11 @@ class SavedItemsAdapter(private val List: MutableList<ArticleEntity>?, var Liste
         holder.onBind(List!![position])
     }
 
-    fun appendNews(articles : MutableList<ArticleEntity>)
+ /**   fun appendNews(articles : List<Article>)
     {
         this.List!!.addAll(articles)
         notifyItemRangeInserted(this.List!!.size,this.List.size-1)
-    }
+    } **/
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val imageView: ImageView = itemView.article_poster

@@ -4,8 +4,10 @@ package com.example.newsapp
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.graphics.Insets.add
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -19,18 +21,22 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.newsapp.adapters.HeadlinesAdapter
 import com.example.newsapp.adapters.SavedItemsAdapter
 import com.example.newsapp.database.ArticleEntity
+import com.example.newsapp.models.Article
 import com.example.newsapp.viewmodel.ArticlesViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_headlines.*
 import kotlinx.android.synthetic.main.fragment_item_details.*
 import kotlinx.android.synthetic.main.fragment_saved_items.*
 
+//lateinit var articleMain : ArticleEntity
+//lateinit var savedlistTest : ArrayList<ArticleEntity>
 var saveState = 0
 
 class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, SavedItemsAdapter.SavedItemsListener {
     lateinit var llm: LinearLayoutManager
 
     var currentPageNumber = 1
+   // lateinit var newsAdapter: HeadlinesAdapter
 
     private val mainViewModel: ArticlesViewModel by viewModels()
 
@@ -38,29 +44,55 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //Initialize headlines recyclerView
-        var headlinesAdapter = HeadlinesAdapter(mutableListOf(), this)
-        rv_headlines.adapter = headlinesAdapter
-        rv_headlines.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         mainViewModel.getNews()
             .observe(this, Observer {
-                //rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
-                headlinesAdapter.appendNews(it)
+                rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
                 attachonScrollListner()
+                // saved_rv.adapter = SavedItemsAdapter(List = it as MutableList<Article>?, this)
             })
-
-        //Initialize savedAdapter
-
-        var savedAdapter = SavedItemsAdapter(mutableListOf(), this)
-
-        saved_rv.adapter = savedAdapter
-        saved_rv.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
 
         mainViewModel.getSavedArticles()
-            .observe(this, Observer{
-                savedAdapter.appendNews(it)
+            .observe(this, Observer {
+               // rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?,this)
+              //  mainViewModel.updateSaved()
+              //  savedlistTest = it as ArrayList<ArticleEntity>
+                saved_rv.adapter = SavedItemsAdapter(it, this)
+
             })
+
+        mainViewModel.updateSaved()
+            .observe(this, Observer {
+                //rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?,this)
+
+                attachonScrollListner()
+                // saved_rv.adapter = SavedItemsAdapter(List = it as MutableList<Article>?, this)
+            })
+
+        /*//val navController = findNavController(this, R.id.bottomNavMenu)
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavMenu)
+        bottomNav?.setupWithNavController(navController)*/
+/*
+        viewModel.headlinesMutableLiveData.observe(this, object: Observer<MutableList<ArticleEntity>> {
+            override fun onChanged(t: MutableList<ArticleEntity>?) {
+                if( t!= null ){
+                    newsAdapter.appendNews(t)
+                    newsAdapter.notifyDataSetChanged()
+                    attachonScrollListner()
+                }
+            }
+
+        })
+*/
+       // newsAdapter = HeadlinesAdapter(mutableListOf(), this)
+        llm = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+
+      //  rv_headlines.adapter = newsAdapter
+        rv_headlines.layoutManager = llm
+
+        //viewModel.getHeadlines(applicationContext)
+    //    NewsClient.fetchHeadlines(currentPageNumber, ::onSuccess, ::onError)
+
 
 
         bottomNavMenu!!.setOnNavigationItemSelectedListener { item ->
@@ -69,15 +101,22 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                     mainViewModel.getNews()
                     var fragManager = supportFragmentManager
                     fragManager.beginTransaction().show(headLinesFrag).hide(savedFrag).hide(detailsFrag).commit()
-
+                    /* if(articleMain.saved==true)
+                    {
+                        headLinesFrag.btnSave.setImageResource(R.drawable.ic_saved)
+                    }
+                    else
+                    {
+                        headLinesFrag.btnSave.setImageResource(R.drawable.ic_unsaved)
+                    } */
                     true
                 }
                 R.id.savedItemsFragment -> {
                     mainViewModel.getSavedArticles()
-
+                  //  var SavedAdapter: SavedItemsAdapter = SavedItemsAdapter(savedlistTest,this)
                     var llm_saved: LinearLayoutManager =
                         LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-//3ayz amsa8o
+                 //   saved_rv.adapter = SavedAdapter
                     saved_rv.layoutManager = llm_saved
                     var fragManager = supportFragmentManager
                     fragManager.beginTransaction().show(savedFrag).hide(headLinesFrag).hide(detailsFrag).commit()
@@ -88,7 +127,16 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
         }
     }
+/*
+    private fun onError() {
+        Toast.makeText(this, "Failed to fetch article", Toast.LENGTH_SHORT).show()
+    }
 
+    private fun onSuccess(list: MutableList<ArticleEntity>) {
+        newsAdapter.appendNews(list)
+        attachonScrollListner()
+    }
+*/
     private fun attachonScrollListner() {
         rv_headlines.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -100,7 +148,9 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                 if (firstVisibleArticle + visibleArticles >= totalArticles / 2) {
                     rv_headlines.removeOnScrollListener(this)
                     currentPageNumber++
-                    mainViewModel.getNews()
+           //         NewsClient.fetchHeadlines(currentPageNumber, ::onSuccess, ::onError)
+
+                   // viewModel.getHeadlines(applicationContext)
                 }
             }
         })
@@ -171,3 +221,23 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
     }
 }
+
+
+
+
+
+
+
+/*private val navListener = object:BottomNavigationView.OnNavigationItemSelectedListener {
+    override fun onNavigationItemSelected(@NonNull item: MenuItem):Boolean {
+        var selectedFragment: Fragment? = null
+        when (item.getItemId()) {
+            R.id.headlinesFragment -> selectedFragment = HeadlinesFragment()
+            R.id.savedItemsFragment -> selectedFragment = SavedItemsFragment()
+        }
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+            selectedFragment!!
+        ).commit()
+        return true
+    }
+}*/

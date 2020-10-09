@@ -14,5 +14,5 @@ interface ArticlesDAO {
     fun getCachedArticles(): MutableList<ArticleEntity>
 
     @Update()
-    fun updateArticleSaveStatus(article: ArticleEntity)
+    fun updateArticleSaveStatus(article: MutableList<ArticleEntity>)
 }
