@@ -29,9 +29,17 @@ class SavedItemsAdapter(private val List: MutableList<ArticleEntity>?, var Liste
 
             itemView.setOnClickListener { Listener.savedItemsClicked(article) }
 
-            /*itemView.btnSave.setOnClickListener{
-
-            }*/
+            itemView.btnSave.setOnClickListener{
+                if(article.saved == true){//unsave scenario
+                    article.saved = false
+                    itemView.btnSave.setImageResource(R.drawable.ic_unsaved)
+                }
+                else if(article.saved == false){//save scenario
+                    article.saved = true
+                    itemView.btnSave.setImageResource(R.drawable.ic_saved)
+                }
+                Listener.savedItemsSaved(article)
+            }
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder

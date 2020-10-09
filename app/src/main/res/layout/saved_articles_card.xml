@@ -80,6 +80,7 @@
             app:layout_constraintStart_toEndOf="@+id/article_poster" />
 
         <ImageButton
+            android:id="@+id/btnSave"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_marginEnd="8dp"

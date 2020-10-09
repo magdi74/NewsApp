@@ -88,7 +88,9 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
     }
 
     override fun savedItemsSaved(article: ArticleEntity) {
-
+        articlesViewModel.updateSaved(article)
+        articlesViewModel.callNews()
+        articlesViewModel.callSavedArticles()
     }
 
     fun copyText(view: View){
