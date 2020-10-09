@@ -17,6 +17,7 @@ class HeadlinesAdapter(private val List: MutableList<ArticleEntity>?, var Listen
 
     interface HeadlineListener {
         fun headlineClicked(article: ArticleEntity)
+        fun headlineSaveStatus(article: ArticleEntity)
     }
 
     inner class NewsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
@@ -29,7 +30,15 @@ class HeadlinesAdapter(private val List: MutableList<ArticleEntity>?, var Listen
             itemView.setOnClickListener { Listener.headlineClicked(article) }
 
             itemView.btnSave.setOnClickListener{
-
+                if(article.saved == true){//unsave scenario
+                    article.saved = false
+                    itemView.btnSave.setImageResource(R.drawable.ic_unsaved)
+                }
+                else if(article.saved == false){//save scenario
+                    article.saved = true
+                    itemView.btnSave.setImageResource(R.drawable.ic_saved)
+                }
+                Listener.headlineSaveStatus(article)
             }
         }
     }
