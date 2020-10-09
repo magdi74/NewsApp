@@ -1,7 +1,8 @@
 package com.example.newsapp.apiclient
 
 import android.content.Context
-import androidx.lifecycle.LiveData
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import com.example.newsapp.database.ArticleEntity
 import com.example.newsapp.database.ArticlesDAO
@@ -24,7 +25,7 @@ object NewsRepository {
         appDatabase = ArticlesDatabase.getDatabaseInstance(context)
     }
 
-    fun getNews(): LiveData<MutableList<ArticleEntity>> {
+    fun getNews(): MutableLiveData<MutableList<ArticleEntity>> {
         val newsListLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
 
         if (articlesList.isNotEmpty()) {
@@ -85,22 +86,26 @@ object NewsRepository {
         return entityList
     }
 
-    fun getSavedArticles(): LiveData<MutableList<ArticleEntity>>{
+    fun getSavedArticles(): MutableLiveData<MutableList<ArticleEntity>>{
 
         val newsListLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
 
         var savedList: MutableList<ArticleEntity> = mutableListOf()
-        savedList = appDatabase.ArticlesDao().getSavedArticles()
+        savedList = appDatabase.ArticlesDao().getCachedArticles()
 
         if (savedList.isNotEmpty()) {
+            Log.d("saved","Got Cached")
             newsListLiveData.postValue(savedList)
+        }
+        else{
+            Log.d("saved","Empty")
         }
         return newsListLiveData
 
     }
 
     fun updateArticles(article: ArticleEntity){
-        appDatabase.ArticlesDao().updateArticleSaveStatus(article)
+        appDatabase.ArticlesDao().updateArticleSaveStatus(article.saved!!, article.url)
     }
 
     private fun setSavedStatus(apiEntities: MutableList<ArticleEntity>, saved: MutableList<ArticleEntity>): MutableList<ArticleEntity>{
