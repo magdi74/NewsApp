@@ -26,57 +26,20 @@ import kotlinx.android.synthetic.main.fragment_item_details.view.*
 import kotlinx.android.synthetic.main.fragment_saved_items.*
 import java.text.FieldPosition
 
-var saveState = 0
-lateinit var articleMain : Article
-lateinit var savedlistTest : ArrayList<Article>
-
 class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, SavedItemsAdapter.SavedItemsListener {
-    lateinit var llm: LinearLayoutManager
-    var currentPageNumber = 1
-    lateinit var newsAdapter: HeadlinesAdapter
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        /*//val navController = findNavController(this, R.id.bottomNavMenu)
-        val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavMenu)
-
-        bottomNav?.setupWithNavController(navController)*/
-        savedlistTest = ArrayList()
-        newsAdapter = HeadlinesAdapter(mutableListOf(), this)
-        llm = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-
-        rv_headlines.adapter = newsAdapter
-        rv_headlines.layoutManager = llm
-
-        NewsClient.fetchHeadlines(currentPageNumber, ::onSuccess, ::onError)
-
-
 
         bottomNavMenu!!.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.headlinesFragment -> {
                     var fragManager = supportFragmentManager
                     fragManager.beginTransaction().show(headLinesFrag).hide(savedFrag).hide(detailsFrag).commit()
-                    /* if(articleMain.saved==true)
-                    {
-                        headLinesFrag.btnSave.setImageResource(R.drawable.ic_saved)
-                    }
-                    else
-                    {
-                        headLinesFrag.btnSave.setImageResource(R.drawable.ic_unsaved)
-                    } */
                     true
                 }
                 R.id.savedItemsFragment -> {
-                    lateinit var llm_saved: LinearLayoutManager
-                    lateinit var SavedAdapter: SavedItemsAdapter
-                    SavedAdapter = SavedItemsAdapter(savedlistTest,this)
-                    llm_saved = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-                    saved_rv.adapter = SavedAdapter
-                    saved_rv.layoutManager = llm_saved
                     var fragManager = supportFragmentManager
                     fragManager.beginTransaction().show(savedFrag).hide(headLinesFrag).hide(detailsFrag).commit()
                     true
@@ -87,58 +50,17 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         }
     }
 
-    private fun onError() {
-        Toast.makeText(this, "Failed to fetch article", Toast.LENGTH_SHORT).show()
-    }
 
-    private fun onSuccess(list: MutableList<Article>) {
-        newsAdapter.appendNews(list)
-        attachonScrollListner()
-    }
-
-    private fun attachonScrollListner() {
-        rv_headlines.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val totalArticles = llm.itemCount
-                val visibleArticles = llm.childCount
-                val firstVisibleArticle = llm.findLastVisibleItemPosition()
-
-                if (firstVisibleArticle + visibleArticles >= totalArticles / 2) {
-                    rv_headlines.removeOnScrollListener(this)
-                    currentPageNumber++
-                    NewsClient.fetchHeadlines(currentPageNumber, ::onSuccess, ::onError)
-                }
-            }
-        })
-
-    }
     override fun headlineClicked(article: Article,position: Int) {
-        articleMain= article
-        headline_details.text = article.title
-        description.text = article.description
-        article_date_details.text = article.publishedAt
-        article_source_details.text = article.source.name
-        Glide.with(this).load(article.imageUrl).transform(CenterCrop()).into(banner)
-        if(article.saved==true)
-        {
-            detailsFrag.btnSave.setImageResource(R.drawable.ic_saved)
-            saveState=1
-        }
-        else
-        {
-            detailsFrag.btnSave.setImageResource(R.drawable.ic_unsaved)
-            saveState=0
-        }
-        var fragment : FragmentManager
-        fragment = supportFragmentManager
-        fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
 
     }
 
+    override fun savedItemsClicked(article: Article) {
+
+    }
 
     fun copyText(view: View){
-        copyToClipboard(articleMain.url.toString())
+        //copyToClipboard(articleMain.url.toString())
         Toast.makeText(this, "Link copied to clipboard", Toast.LENGTH_SHORT).show()
     }
 
@@ -148,46 +70,4 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         clipboard?.setPrimaryClip(clip)
 
     }
-
-    override fun savedItemsClicked(article: Article) {
-        articleMain= article
-        headline_details.text = article.title
-        description.text = article.description
-        article_date_details.text = article.publishedAt
-        article_source_details.text = article.source.name
-        Glide.with(this).load(article.imageUrl).transform(CenterCrop()).into(banner)
-        if(article.saved==true)
-        {
-            detailsFrag.btnSave.setImageResource(R.drawable.ic_saved)
-            saveState=1
-        }
-        else
-        {
-            detailsFrag.btnSave.setImageResource(R.drawable.ic_unsaved)
-            saveState=0
-        }
-        var fragment : FragmentManager
-        fragment = supportFragmentManager
-        fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
-    }
 }
-
-
-
-
-
-
-
-/*private val navListener = object:BottomNavigationView.OnNavigationItemSelectedListener {
-    override fun onNavigationItemSelected(@NonNull item: MenuItem):Boolean {
-        var selectedFragment: Fragment? = null
-        when (item.getItemId()) {
-            R.id.headlinesFragment -> selectedFragment = HeadlinesFragment()
-            R.id.savedItemsFragment -> selectedFragment = SavedItemsFragment()
-        }
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-            selectedFragment!!
-        ).commit()
-        return true
-    }
-}*/
