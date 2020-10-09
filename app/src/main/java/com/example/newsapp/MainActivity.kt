@@ -1,3 +1,5 @@
+@file:Suppress("UNCHECKED_CAST")
+
 package com.example.newsapp
 
 import android.content.ClipData
@@ -8,6 +10,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Adapter
 import android.widget.Toast
+import androidx.activity.viewModels
+
 import androidx.annotation.RequiresApi
 import androidx.core.view.get
 import androidx.fragment.app.FragmentManager
@@ -30,27 +34,33 @@ import kotlinx.android.synthetic.main.fragment_item_details.view.*
 import kotlinx.android.synthetic.main.fragment_saved_items.*
 import java.text.FieldPosition
 
-var saveState = 0
 lateinit var articleMain : Article
 lateinit var savedlistTest : ArrayList<Article>
+var saveState = 0
 
 class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, SavedItemsAdapter.SavedItemsListener {
     lateinit var llm: LinearLayoutManager
+
     var currentPageNumber = 1
     lateinit var newsAdapter: HeadlinesAdapter
-    lateinit var viewModel: ArticlesViewModel
 
+    private val mainViewModel: ArticlesViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        viewModel = ViewModelProvider(this).get(ArticlesViewModel::class.java)
+
+        mainViewModel.getNews()
+            .observe(this, Observer {
+                rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?,this)
+                saved_rv.adapter = SavedItemsAdapter(List = it as MutableList<Article>?, this)
+            })
 
         /*//val navController = findNavController(this, R.id.bottomNavMenu)
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottomNavMenu)
         bottomNav?.setupWithNavController(navController)*/
-
+/*
         viewModel.headlinesMutableLiveData.observe(this, object: Observer<MutableList<ArticleEntity>> {
             override fun onChanged(t: MutableList<ArticleEntity>?) {
                 if( t!= null ){
@@ -61,15 +71,14 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
             }
 
         })
-
-        savedlistTest = ArrayList()
+*/
         newsAdapter = HeadlinesAdapter(mutableListOf(), this)
         llm = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-        rv_headlines.adapter = newsAdapter
+      //  rv_headlines.adapter = newsAdapter
         rv_headlines.layoutManager = llm
 
-        viewModel.getHeadlines(applicationContext)
+        //viewModel.getHeadlines(applicationContext)
     //    NewsClient.fetchHeadlines(currentPageNumber, ::onSuccess, ::onError)
 
 
@@ -90,11 +99,10 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                     true
                 }
                 R.id.savedItemsFragment -> {
-                    lateinit var llm_saved: LinearLayoutManager
-                    lateinit var SavedAdapter: SavedItemsAdapter
-                    SavedAdapter = SavedItemsAdapter(savedlistTest,this)
-                    llm_saved = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
-                    saved_rv.adapter = SavedAdapter
+                  //  var SavedAdapter: SavedItemsAdapter = SavedItemsAdapter(savedlistTest,this)
+                    var llm_saved: LinearLayoutManager =
+                        LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
+                  //  saved_rv.adapter = SavedAdapter
                     saved_rv.layoutManager = llm_saved
                     var fragManager = supportFragmentManager
                     fragManager.beginTransaction().show(savedFrag).hide(headLinesFrag).hide(detailsFrag).commit()
@@ -105,7 +113,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
         }
     }
-
+/*
     private fun onError() {
         Toast.makeText(this, "Failed to fetch article", Toast.LENGTH_SHORT).show()
     }
@@ -114,7 +122,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         newsAdapter.appendNews(list)
         attachonScrollListner()
     }
-
+*/
     private fun attachonScrollListner() {
         rv_headlines.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -128,7 +136,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                     currentPageNumber++
            //         NewsClient.fetchHeadlines(currentPageNumber, ::onSuccess, ::onError)
 
-                    viewModel.getHeadlines(applicationContext)
+                   // viewModel.getHeadlines(applicationContext)
                 }
             }
         })
@@ -187,8 +195,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
             detailsFrag.btnSave.setImageResource(R.drawable.ic_unsaved)
             saveState=0
         }
-        var fragment : FragmentManager
-        fragment = supportFragmentManager
+        var fragment : FragmentManager = supportFragmentManager
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
     }
 }
