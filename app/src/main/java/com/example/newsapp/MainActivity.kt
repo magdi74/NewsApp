@@ -49,6 +49,18 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                 R.id.headlinesFragment -> {
                     var fragManager = supportFragmentManager
                     fragManager.beginTransaction().show(headLinesFrag).hide(savedFrag).hide(detailsFrag).commit()
+
+                    rv_headlines.adapter = headlinesAdapter
+                    rv_headlines.layoutManager = headlinesLayoutManager
+
+
+                    articlesViewModel.callNews()
+
+                    articlesViewModel.getNews()
+                        .observe(this, Observer{
+                            rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
+                        })
+
                     true
                 }
                 R.id.savedItemsFragment -> {
