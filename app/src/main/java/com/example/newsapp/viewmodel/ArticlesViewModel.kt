@@ -1,37 +1,30 @@
 package com.example.newsapp.viewmodel
 
+import android.app.Application
 import android.content.Context
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.newsapp.apiclient.NewsRepository
 import com.example.newsapp.database.ArticleEntity
 
-class ArticlesViewModel: ViewModel() {
-    var headlinesMutableLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
-    var savedMutableLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
-
-    fun getHeadlines(context: Context){
-        fun onComplete(mutableList: MutableList<ArticleEntity>) {
-            headlinesMutableLiveData.postValue((mutableList))
-        }
-
-        fun onIncomplete(mutableList: MutableList<ArticleEntity>) {
-            headlinesMutableLiveData.postValue(mutableList)
-        }
-        NewsRepository.getAllArticles(context, ::onComplete, ::onIncomplete)
+class ArticlesViewModel(application: Application) : AndroidViewModel(application){
+    init {
+        // Ensue database is initialized whenever ViewModel is created.
+        NewsRepository.initDataBase(application)
     }
 
-    fun getSavedHeadlines(context: Context){
-        fun onLoaded(mutableList: MutableList<ArticleEntity>) {
-            savedMutableLiveData.postValue(mutableList)
-        }
-        NewsRepository.getSavedArticles(context, ::onLoaded)
-
+    fun getNews(): LiveData<MutableList<ArticleEntity>> {
+        return NewsRepository.getNews()
     }
 
-    fun updateArticle(context: Context, article: ArticleEntity){
-        NewsRepository.updateSavedArticles(context, article)
+    fun getSavedArticles(): LiveData<MutableList<ArticleEntity>>{
+        return NewsRepository.getSavedArticles()
     }
+
+    fun updateSaved(){
+    }
+
 
 }
