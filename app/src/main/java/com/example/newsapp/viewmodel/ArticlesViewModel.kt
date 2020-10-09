@@ -15,12 +15,23 @@ class ArticlesViewModel(application: Application) : AndroidViewModel(application
         NewsRepository.initDataBase(application)
     }
 
+    var mutableHeadlines: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
+    var mutableSaved: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
+
     fun getNews(): LiveData<MutableList<ArticleEntity>> {
-        return NewsRepository.getNews()
+        return mutableHeadlines
+    }
+
+    fun callNews(){
+        mutableHeadlines = NewsRepository.getNews()
     }
 
     fun getSavedArticles(): LiveData<MutableList<ArticleEntity>>{
-        return NewsRepository.getSavedArticles()
+        return mutableSaved
+    }
+
+    fun callSavedArticles(){
+        mutableSaved = NewsRepository.getSavedArticles()
     }
 
     fun updateSaved(article: ArticleEntity){
