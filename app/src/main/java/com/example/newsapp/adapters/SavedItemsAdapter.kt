@@ -16,7 +16,8 @@ class SavedItemsAdapter(private val List: MutableList<ArticleEntity>?, var Liste
     RecyclerView.Adapter<SavedItemsAdapter.NewsViewHolder>() {
 
      interface SavedItemsListener {
-        fun savedItemsClicked(article: ArticleEntity)
+         fun savedItemsClicked(article: ArticleEntity)
+         fun savedItemsSaved(article:ArticleEntity)
     }
 
     inner class NewsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
@@ -28,9 +29,9 @@ class SavedItemsAdapter(private val List: MutableList<ArticleEntity>?, var Liste
 
             itemView.setOnClickListener { Listener.savedItemsClicked(article) }
 
-            itemView.btnSave.setOnClickListener{
+            /*itemView.btnSave.setOnClickListener{
 
-            }
+            }*/
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder
