@@ -29,7 +29,10 @@ object NewsRepository {
         val newsListLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
 
         if (articlesList.isNotEmpty()) {
-            newsListLiveData.postValue(articlesList)
+
+            var saveddb = setSavedStatus(articlesList, appDatabase.ArticlesDao().getSavedArticles())
+
+            newsListLiveData.postValue(saveddb)
             return newsListLiveData
         }
 
@@ -45,9 +48,11 @@ object NewsRepository {
 
                     articlesList.addAll(apiEntity)
 
-                    appDatabase.ArticlesDao().insertArticles(articlesList)
+                    var saved = setSavedStatus(articlesList, appDatabase.ArticlesDao().getSavedArticles())
 
-                    newsListLiveData.postValue(articlesList)
+                    appDatabase.ArticlesDao().insertArticles(saved)
+
+                    newsListLiveData.postValue(saved)
                 } else {
                     val savedNews = appDatabase.ArticlesDao().getCachedArticles()
                     newsListLiveData.postValue(savedNews)

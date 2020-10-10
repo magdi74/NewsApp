@@ -27,6 +27,11 @@ class SavedItemsAdapter(private val List: MutableList<ArticleEntity>?, var Liste
             itemView.article_date.text = article.publishedAt
             Glide.with(itemView).load(article.imageUrl).transform(CenterCrop()).into(itemView.article_poster)
 
+            if(article.saved == true)
+                itemView.btnSave.setImageResource(R.drawable.ic_saved)
+            else if(article.saved == false)
+                itemView.btnSave.setImageResource(R.drawable.ic_unsaved)
+
             itemView.setOnClickListener { Listener.savedItemsClicked(article) }
 
             itemView.btnSave.setOnClickListener{

@@ -40,7 +40,10 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
         articlesViewModel.getNews()
             .observe(this, Observer{
-                rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
+                headlinesAdapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
+                rv_headlines.adapter = headlinesAdapter
+                articlesViewModel.callNews()
+                headlinesAdapter.notifyDataSetChanged()
             })
 
 
@@ -56,9 +59,12 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
                     articlesViewModel.callNews()
 
-                    articlesViewModel.getNews()
+                    articlesViewModel.mutableHeadlines
                         .observe(this, Observer{
-                            rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
+                            headlinesAdapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
+                            rv_headlines.adapter = headlinesAdapter
+                            articlesViewModel.callNews()
+                            headlinesAdapter.notifyDataSetChanged()
                         })
 
                     true
@@ -74,6 +80,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
                     articlesViewModel.getSavedArticles().observe(this, Observer{
                         rv_saved.adapter = SavedItemsAdapter(it as MutableList<ArticleEntity>?, this)
+                        articlesViewModel.callNews()
                     })
 
                     true
