@@ -2,11 +2,13 @@ package com.example.newsapp
 
 import android.content.ClipData
 import android.content.ClipboardManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.newsapp.adapters.HeadlinesAdapter
@@ -117,6 +119,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         Toast.makeText(this, "Link copied to clipboard", Toast.LENGTH_SHORT).show()
     }
 
+    @RequiresApi(Build.VERSION_CODES.HONEYCOMB)
     fun copyToClipboard(text:CharSequence){
         val clipboard: ClipboardManager =getSystemService(CLIPBOARD_SERVICE)  as ClipboardManager
         val clip:ClipData = ClipData.newPlainText("Link copied to Clipboard",text)
