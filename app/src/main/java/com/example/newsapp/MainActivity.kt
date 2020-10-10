@@ -56,6 +56,15 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                 rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
             })
 
+        articlesViewModel.callSavedArticles()
+
+        articlesViewModel.getSavedArticles().observe(this, Observer{
+            savedAdapter = SavedItemsAdapter(it, this)
+            rv_saved.adapter = savedAdapter
+            rv_saved.layoutManager = savedLayoutManager
+            savedAdapter.notifyDataSetChanged()
+        })
+
 
         bottomNavMenu!!.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -134,7 +143,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
     override fun savedItemsSaved(article: ArticleEntity) {
         articlesViewModel.updateSaved(article)
-       articlesViewModel.callNews()
+        articlesViewModel.callNews()
         articlesViewModel.callSavedArticles()
     }
 

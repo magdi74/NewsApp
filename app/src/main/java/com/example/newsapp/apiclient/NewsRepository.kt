@@ -45,9 +45,13 @@ object NewsRepository {
 
                     articlesList.addAll(apiEntity)
 
-                    appDatabase.ArticlesDao().insertArticles(articlesList)
+                    var saved = setSavedStatus(articlesList,
+                        appDatabase.ArticlesDao().getCachedArticles().filter{it.saved == true}.distinct().toMutableList())
+                        .distinct().toMutableList()
 
-                    newsListLiveData.postValue(articlesList)
+                    appDatabase.ArticlesDao().insertArticles(saved)
+
+                    newsListLiveData.postValue(saved)
                 } else {
                     val savedNews = appDatabase.ArticlesDao().getCachedArticles()
                     newsListLiveData.postValue(savedNews)
@@ -91,12 +95,13 @@ object NewsRepository {
         val newsListLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
 
         var savedList: MutableList<ArticleEntity> = mutableListOf()
-        savedList = appDatabase.ArticlesDao().getSavedArticles()
+        //savedList = appDatabase.ArticlesDao().getSavedArticles()
+        savedList = appDatabase.ArticlesDao().getCachedArticles().filter{it.saved == true}.distinct().toMutableList()
 
         if (savedList.isNotEmpty()) {
             Log.d("saved","Got Cached")
             newsListLiveData.postValue(savedList)
-            appDatabase.ArticlesDao().insertArticles(savedList)
+            //appDatabase.ArticlesDao().insertArticles(savedList)
         }
         else{
             Log.d("saved","Empty")
