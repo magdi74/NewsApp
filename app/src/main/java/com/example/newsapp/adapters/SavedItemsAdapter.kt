@@ -11,7 +11,13 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.newsapp.Item
 import com.example.newsapp.R
 import com.example.newsapp.models.Article
+import com.example.newsapp.savedlistTest
 import kotlinx.android.synthetic.main.news_card.view.*
+import kotlinx.android.synthetic.main.news_card.view.article_date
+import kotlinx.android.synthetic.main.news_card.view.article_headline
+import kotlinx.android.synthetic.main.news_card.view.article_poster
+import kotlinx.android.synthetic.main.news_card.view.article_source
+import kotlinx.android.synthetic.main.saved_articles_card.view.*
 
 
 class SavedItemsAdapter(private val List: MutableList<Article>?, var Listener: SavedItemsListener):
@@ -29,16 +35,10 @@ class SavedItemsAdapter(private val List: MutableList<Article>?, var Listener: S
 
             itemView.setOnClickListener({Listener.savedItemsClicked(article)})
 
-     /**       itemView.btnSave.setOnClickListener({
-                if (saveState == 0) {
-                    itemView.btnSave.setImageResource(R.drawable.ic_saved)
-                    saveState = 1
-                }
-                else{
-                    itemView.btnSave.setImageResource(R.drawable.ic_unsaved)
-                    saveState = 0
-                }
-            }) **/
+            itemView.btnSave.setOnClickListener{
+                savedlistTest.remove(article)
+                notifyDataSetChanged()
+            }
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder
@@ -49,11 +49,7 @@ class SavedItemsAdapter(private val List: MutableList<Article>?, var Listener: S
         holder.onBind(List!![position])
     }
 
- /**   fun appendNews(articles : List<Article>)
-    {
-        this.List!!.addAll(articles)
-        notifyItemRangeInserted(this.List!!.size,this.List.size-1)
-    } **/
+
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val imageView: ImageView = itemView.article_poster

@@ -11,5 +11,4 @@ data class Article(
     @SerializedName("urlToImage") var imageUrl: String,
     @SerializedName("publishedAt") var publishedAt: String,
     @SerializedName("content") var content: String,
-    var saved: Boolean = false
 )
