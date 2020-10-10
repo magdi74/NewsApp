@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,11 +20,13 @@ import com.example.newsapp.adapters.SavedItemsAdapter
 import com.example.newsapp.database.ArticleEntity
 import com.example.newsapp.models.Article
 import com.example.newsapp.viewmodel.ArticlesViewModel
+import com.example.newsapp.ui.destinations.ItemDetailsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_headlines.*
 import kotlinx.android.synthetic.main.fragment_item_details.*
 import kotlinx.android.synthetic.main.fragment_saved_items.*
 lateinit var articleMain : ArticleEntity
+//lateinit var savedlistTest : ArrayList<ArticleEntity>
 
 class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, SavedItemsAdapter.SavedItemsListener {
 
@@ -32,6 +35,10 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        var B : ActionBar? = supportActionBar
+        B?.hide()
+
+
 
         var headlinesAdapter = HeadlinesAdapter(mutableListOf(), this)
         var headlinesLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
@@ -41,7 +48,6 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
         rv_headlines.adapter = headlinesAdapter
         rv_headlines.layoutManager = headlinesLayoutManager
-
 
         articlesViewModel.callNews()
 
@@ -99,7 +105,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         detailsFrag.article_date_details.text = article.publishedAt
         detailsFrag.article_source_details.text = article.source?.name
         Glide.with(this).load(article.imageUrl).transform(CenterCrop()).into(detailsFrag.banner)
-
+        headlineSaveStatus(article)
         var fragment : FragmentManager
         fragment = supportFragmentManager
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
@@ -128,7 +134,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
     override fun savedItemsSaved(article: ArticleEntity) {
         articlesViewModel.updateSaved(article)
-        articlesViewModel.callNews()
+       articlesViewModel.callNews()
         articlesViewModel.callSavedArticles()
     }
 

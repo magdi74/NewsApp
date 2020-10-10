@@ -18,6 +18,7 @@ class SavedItemsAdapter(private val List: MutableList<ArticleEntity>?, var Liste
     interface SavedItemsListener {
         fun savedItemsClicked(article: ArticleEntity)
         fun savedItemsSaved(article:ArticleEntity)
+        fun headlineSaveStatus(article: ArticleEntity)
     }
 
     inner class NewsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
@@ -38,7 +39,7 @@ class SavedItemsAdapter(private val List: MutableList<ArticleEntity>?, var Liste
                     article.saved = true
                     itemView.btnSave.setImageResource(R.drawable.ic_saved)
                 }
-                Listener.savedItemsSaved(article)
+                Listener.headlineSaveStatus(article)
             }
         }
     }

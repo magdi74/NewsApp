@@ -1,5 +1,6 @@
 package com.example.newsapp.ui.destinations
 
+import android.app.Activity
 import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,9 +10,12 @@ import android.view.ViewGroup
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import com.example.newsapp.*
 import kotlinx.android.synthetic.main.fragment_item_details.view.*
 import com.example.newsapp.articleMain
+import com.example.newsapp.database.ArticleEntity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_web.*
 
@@ -36,17 +40,17 @@ class ItemDetailsFragment : Fragment() {
             fragmentManager?.beginTransaction()?.show(web_frag)?.hide(detailsFrag)?.hide(headLinesFrag)
                 ?.hide(savedFrag)?.commit()
         }
+        var  mutableLiveData : MutableLiveData<ArticleEntity> = MutableLiveData()
+      /*  view.btnSave.setOnClickListener{ item ->
 
-        view.btnSave.setOnClickListener{ item ->
 
             if(articleMain.saved == false){
                 Toast.makeText(activity,"Article Saved", Toast.LENGTH_SHORT).show()
-
-
-                // savedlistTest.add(articleMain)
+                articleMain.saved = true
+                 //savedlistTest.add(articleMain)
 
             }
-        }
+        }*/
         return view
     }
 

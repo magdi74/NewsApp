@@ -56,8 +56,8 @@ object NewsRepository {
 
             override fun onFailure(call: Call<ArticlesResponse>, t: Throwable) {
 
-                val savedMovies = appDatabase.ArticlesDao().getCachedArticles()
-                newsListLiveData.postValue(savedMovies)
+                val savedNews = appDatabase.ArticlesDao().getCachedArticles()
+                newsListLiveData.postValue(savedNews)
             }
 
         })
@@ -96,6 +96,7 @@ object NewsRepository {
         if (savedList.isNotEmpty()) {
             Log.d("saved","Got Cached")
             newsListLiveData.postValue(savedList)
+            appDatabase.ArticlesDao().insertArticles(savedList)
         }
         else{
             Log.d("saved","Empty")
@@ -106,11 +107,12 @@ object NewsRepository {
 
     fun updateArticles(article: ArticleEntity){
         appDatabase.ArticlesDao().updateArticleSaveStatus(article)
+        appDatabase.ArticlesDao().insertArticles(article)
     }
 
     private fun setSavedStatus(apiEntities: MutableList<ArticleEntity>, saved: MutableList<ArticleEntity>): MutableList<ArticleEntity>{
         var articleEntities: MutableList<ArticleEntity> = mutableListOf()
-        //mmkn yedrab error hena
+
         for(i in 0 until apiEntities.size){
             for(j in 0 until saved.size){
                 if(apiEntities[i].url==saved[j].url){

@@ -32,10 +32,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="20dp"
             android:text="Headline"
             android:textSize="26sp"
             android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/container2"
             app:layout_constraintTop_toTopOf="@id/container2" />
 
@@ -74,25 +74,13 @@
             android:id="@+id/btn_share"
             android:layout_width="33dp"
             android:layout_height="33dp"
-            android:layout_marginEnd="96dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginBottom="8dp"
             android:background="#e6ecec"
+            android:onClick="copyText"
             android:src="@drawable/share"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:onClick="copyText"/>
-
-        <ImageButton
-            android:id="@+id/btnSave"
-            android:layout_width="33dp"
-            android:layout_height="33dp"
-            android:layout_marginBottom="8dp"
-            android:background="#e6ecec"
-            android:src="@drawable/ic_unsaved"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.508"
-            app:layout_constraintStart_toEndOf="@id/btn_share" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
