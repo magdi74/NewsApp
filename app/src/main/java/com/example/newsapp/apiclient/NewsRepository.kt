@@ -29,10 +29,7 @@ object NewsRepository {
         val newsListLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
 
         if (articlesList.isNotEmpty()) {
-
-            var saveddb = setSavedStatus(articlesList, appDatabase.ArticlesDao().getSavedArticles())
-
-            newsListLiveData.postValue(saveddb)
+            newsListLiveData.postValue(articlesList)
             return newsListLiveData
         }
 
@@ -48,11 +45,9 @@ object NewsRepository {
 
                     articlesList.addAll(apiEntity)
 
-                    var saved = setSavedStatus(articlesList, appDatabase.ArticlesDao().getSavedArticles())
+                    appDatabase.ArticlesDao().insertArticles(articlesList)
 
-                    appDatabase.ArticlesDao().insertArticles(saved)
-
-                    newsListLiveData.postValue(saved)
+                    newsListLiveData.postValue(articlesList)
                 } else {
                     val savedNews = appDatabase.ArticlesDao().getCachedArticles()
                     newsListLiveData.postValue(savedNews)
@@ -115,14 +110,14 @@ object NewsRepository {
 
     private fun setSavedStatus(apiEntities: MutableList<ArticleEntity>, saved: MutableList<ArticleEntity>): MutableList<ArticleEntity>{
         var articleEntities: MutableList<ArticleEntity> = mutableListOf()
-    //mmkn yedrab error hena
+        //mmkn yedrab error hena
         for(i in 0 until apiEntities.size){
             for(j in 0 until saved.size){
                 if(apiEntities[i].url==saved[j].url){
                     articleEntities.add(saved[j])
                 }
                 else{
-                   articleEntities.add(apiEntities[i])
+                    articleEntities.add(apiEntities[i])
                 }
             }
         }

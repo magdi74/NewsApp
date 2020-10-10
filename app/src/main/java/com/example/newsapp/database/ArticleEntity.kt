@@ -15,4 +15,4 @@ class ArticleEntity (
     var publishedAt: String?,
     var content: String?,
     var saved: Boolean?
-    )
+)

@@ -14,9 +14,9 @@ abstract class ArticlesDatabase: RoomDatabase() {
         fun getDatabaseInstance(context: Context): ArticlesDatabase{
             if(articlesDatabase == null)
                 articlesDatabase = Room.databaseBuilder(context, ArticlesDatabase::class.java,"ArticlesDatabase")
-                                    .fallbackToDestructiveMigration()
-                                    .allowMainThreadQueries()
-                                    .build()
+                    .fallbackToDestructiveMigration()
+                    .allowMainThreadQueries()
+                    .build()
             return articlesDatabase!!
         }
     }

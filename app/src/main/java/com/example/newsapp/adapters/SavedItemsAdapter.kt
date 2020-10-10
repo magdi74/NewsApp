@@ -15,9 +15,9 @@ import kotlinx.android.synthetic.main.news_card.view.*
 class SavedItemsAdapter(private val List: MutableList<ArticleEntity>?, var Listener: SavedItemsListener):
     RecyclerView.Adapter<SavedItemsAdapter.NewsViewHolder>() {
 
-     interface SavedItemsListener {
-         fun savedItemsClicked(article: ArticleEntity)
-         fun savedItemsSaved(article:ArticleEntity)
+    interface SavedItemsListener {
+        fun savedItemsClicked(article: ArticleEntity)
+        fun savedItemsSaved(article:ArticleEntity)
     }
 
     inner class NewsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
@@ -26,11 +26,6 @@ class SavedItemsAdapter(private val List: MutableList<ArticleEntity>?, var Liste
             itemView.article_source.text = article.source!!.name
             itemView.article_date.text = article.publishedAt
             Glide.with(itemView).load(article.imageUrl).transform(CenterCrop()).into(itemView.article_poster)
-
-            if(article.saved == true)
-                itemView.btnSave.setImageResource(R.drawable.ic_saved)
-            else if(article.saved == false)
-                itemView.btnSave.setImageResource(R.drawable.ic_unsaved)
 
             itemView.setOnClickListener { Listener.savedItemsClicked(article) }
 

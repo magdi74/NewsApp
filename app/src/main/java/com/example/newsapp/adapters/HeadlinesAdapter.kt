@@ -9,9 +9,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.newsapp.R
 import com.example.newsapp.database.ArticleEntity
 import com.example.newsapp.models.Article
-import kotlinx.android.synthetic.main.fragment_item_details.view.*
 import kotlinx.android.synthetic.main.news_card.view.*
-import kotlinx.android.synthetic.main.news_card.view.btnSave
 
 
 class HeadlinesAdapter(private val List: MutableList<ArticleEntity>?, var Listener: HeadlineListener):
@@ -28,11 +26,6 @@ class HeadlinesAdapter(private val List: MutableList<ArticleEntity>?, var Listen
             itemView.article_source.text = article.source!!.name
             itemView.article_date.text = article.publishedAt
             Glide.with(itemView).load(article.imageUrl).transform(CenterCrop()).into(itemView.article_poster)
-
-            if(article.saved == true)
-                itemView.btnSave.setImageResource(R.drawable.ic_saved)
-            else if(article.saved == false)
-                itemView.btnSave.setImageResource(R.drawable.ic_unsaved)
 
             itemView.setOnClickListener { Listener.headlineClicked(article) }
 

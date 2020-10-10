@@ -9,8 +9,11 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.newsapp.adapters.HeadlinesAdapter
 import com.example.newsapp.adapters.SavedItemsAdapter
 import com.example.newsapp.database.ArticleEntity
@@ -18,7 +21,9 @@ import com.example.newsapp.models.Article
 import com.example.newsapp.viewmodel.ArticlesViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_headlines.*
+import kotlinx.android.synthetic.main.fragment_item_details.*
 import kotlinx.android.synthetic.main.fragment_saved_items.*
+lateinit var articleMain : ArticleEntity
 
 class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, SavedItemsAdapter.SavedItemsListener {
 
@@ -42,10 +47,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
         articlesViewModel.getNews()
             .observe(this, Observer{
-                headlinesAdapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
-                rv_headlines.adapter = headlinesAdapter
-                articlesViewModel.callNews()
-                headlinesAdapter.notifyDataSetChanged()
+                rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
             })
 
 
@@ -60,13 +62,10 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
 
                     articlesViewModel.callNews()
+                    articlesViewModel.getNews()
 
-                    articlesViewModel.mutableHeadlines
                         .observe(this, Observer{
-                            headlinesAdapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
-                            rv_headlines.adapter = headlinesAdapter
-                            articlesViewModel.callNews()
-                            headlinesAdapter.notifyDataSetChanged()
+                            rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
                         })
 
                     true
@@ -82,7 +81,6 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
                     articlesViewModel.getSavedArticles().observe(this, Observer{
                         rv_saved.adapter = SavedItemsAdapter(it as MutableList<ArticleEntity>?, this)
-                        articlesViewModel.callNews()
                     })
 
                     true
@@ -95,6 +93,16 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
 
     override fun headlineClicked(article: ArticleEntity) {
+        articleMain = article
+        detailsFrag.headline_details.text = article.title
+        detailsFrag.description.text = article.description
+        detailsFrag.article_date_details.text = article.publishedAt
+        detailsFrag.article_source_details.text = article.source?.name
+        Glide.with(this).load(article.imageUrl).transform(CenterCrop()).into(detailsFrag.banner)
+
+        var fragment : FragmentManager
+        fragment = supportFragmentManager
+        fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
 
     }
 
@@ -105,6 +113,16 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
     }
 
     override fun savedItemsClicked(article: ArticleEntity) {
+        articleMain = article
+        detailsFrag.headline_details.text = article.title
+        detailsFrag.description.text = article.description
+        detailsFrag.article_date_details.text = article.publishedAt
+        detailsFrag.article_source_details.text = article.source?.name
+        Glide.with(this).load(article.imageUrl).transform(CenterCrop()).into(detailsFrag.banner)
+
+        var fragment : FragmentManager
+        fragment = supportFragmentManager
+        fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
 
     }
 
@@ -115,7 +133,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
     }
 
     fun copyText(view: View){
-        //copyToClipboard(articleMain.url.toString())
+        copyToClipboard(articleMain.url.toString())
         Toast.makeText(this, "Link copied to clipboard", Toast.LENGTH_SHORT).show()
     }
 
