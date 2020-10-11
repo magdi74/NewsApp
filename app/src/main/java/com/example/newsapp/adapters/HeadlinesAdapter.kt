@@ -35,7 +35,7 @@ class HeadlinesAdapter(
 
 
 
-            if (article.saved == true){
+           /* if (article.saved == true){
                // Toast.makeText(context, "Article saved", Toast.LENGTH_SHORT).show()
 
               //  itemView.btnSave.setImageResource(R.drawable.ic_saved)
@@ -45,6 +45,8 @@ class HeadlinesAdapter(
              //   Toast.makeText(context, "Article Unsaved", Toast.LENGTH_SHORT).show()
                 //itemView.btnSave.setImageResource(R.drawable.ic_unsaved)
             }
+
+            */
             itemView.setOnClickListener {
                 Listener.headlineClicked(article)
                 Listener.headlineSaveStatus(article)

@@ -7,6 +7,7 @@ import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.newsapp.R
+import com.example.newsapp.apiclient.NewsRepository
 import com.example.newsapp.database.ArticleEntity
 import com.example.newsapp.models.Article
 import kotlinx.android.synthetic.main.news_card.view.*

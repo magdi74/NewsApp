@@ -25,6 +25,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_headlines.*
 import kotlinx.android.synthetic.main.fragment_item_details.*
 import kotlinx.android.synthetic.main.fragment_saved_items.*
+import kotlinx.android.synthetic.main.fragment_web.*
+
 lateinit var articleMain : ArticleEntity
 //lateinit var savedlistTest : ArrayList<ArticleEntity>
 
@@ -62,7 +64,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
             savedAdapter = SavedItemsAdapter(it, this)
             rv_saved.adapter = savedAdapter
             rv_saved.layoutManager = savedLayoutManager
-            savedAdapter.notifyDataSetChanged()
+           // savedAdapter.notifyDataSetChanged()
         })
 
 
@@ -159,4 +161,8 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         clipboard?.setPrimaryClip(clip)
 
     }
+    override fun onBackPressed() {
+        if (web_frag.web_view.canGoBack())web_frag.web_view.goBack()
+    }
+
 }

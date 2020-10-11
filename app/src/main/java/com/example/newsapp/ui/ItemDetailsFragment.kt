@@ -10,16 +10,19 @@ import android.view.ViewGroup
 import android.webkit.WebViewClient
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import com.example.newsapp.*
+import com.example.newsapp.adapters.HeadlinesAdapter
 import kotlinx.android.synthetic.main.fragment_item_details.view.*
 import com.example.newsapp.articleMain
 import com.example.newsapp.database.ArticleEntity
+import com.example.newsapp.viewmodel.ArticlesViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_web.*
 
-class ItemDetailsFragment : Fragment() {
+class ItemDetailsFragment : Fragment()  {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreateView(
@@ -28,6 +31,14 @@ class ItemDetailsFragment : Fragment() {
     ): View?
     {
         val view: View = inflater.inflate(R.layout.fragment_item_details, container, false)
+
+        val articlesViewModel: ArticlesViewModel by viewModels()
+        view.btnSave.setOnClickListener{
+            Toast.makeText(activity?.applicationContext,"Article Saved",Toast.LENGTH_SHORT).show()
+            articleMain.saved = true
+            articlesViewModel.updateSaved(articleMain)
+        }
+
         view.read_full_story_btn.setOnClickListener{
             web_frag. web_view.webViewClient = WebViewClient()
             web_frag. web_view.apply {
@@ -60,4 +71,5 @@ class ItemDetailsFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
     }
+
 }
