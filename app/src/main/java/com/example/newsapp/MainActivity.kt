@@ -28,7 +28,8 @@ import kotlinx.android.synthetic.main.fragment_saved_items.*
 import kotlinx.android.synthetic.main.fragment_web.*
 
 lateinit var articleMain : ArticleEntity
-//lateinit var savedlistTest : ArrayList<ArticleEntity>
+lateinit var savedAdapter: SavedItemsAdapter
+lateinit var headlinesAdapter:  HeadlinesAdapter
 
 class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, SavedItemsAdapter.SavedItemsListener {
 
@@ -42,10 +43,10 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
 
 
-        var headlinesAdapter = HeadlinesAdapter(mutableListOf(), this)
+        headlinesAdapter = HeadlinesAdapter(mutableListOf(), this)
         var headlinesLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
 
-        var savedAdapter = SavedItemsAdapter(mutableListOf(), this)
+         savedAdapter = SavedItemsAdapter(mutableListOf(), this)
         var savedLayoutManager  = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         rv_headlines.adapter = headlinesAdapter
@@ -55,7 +56,9 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
         articlesViewModel.getNews()
             .observe(this, Observer{
-                rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
+                headlinesAdapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
+                rv_headlines.adapter = headlinesAdapter
+                headlinesAdapter.notifyDataSetChanged()
             })
 
         articlesViewModel.callSavedArticles()
@@ -64,7 +67,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
             savedAdapter = SavedItemsAdapter(it, this)
             rv_saved.adapter = savedAdapter
             rv_saved.layoutManager = savedLayoutManager
-           // savedAdapter.notifyDataSetChanged()
+            savedAdapter.notifyDataSetChanged()
         })
 
 
@@ -79,10 +82,11 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
 
                     articlesViewModel.callNews()
-                    articlesViewModel.getNews()
 
-                        .observe(this, Observer{
-                            rv_headlines.adapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
+                    articlesViewModel.getNews().observe(this, Observer{
+                        headlinesAdapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
+                        rv_headlines.adapter = headlinesAdapter
+                        headlinesAdapter.notifyDataSetChanged()
                         })
 
                     true
@@ -97,7 +101,9 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                     articlesViewModel.callSavedArticles()
 
                     articlesViewModel.getSavedArticles().observe(this, Observer{
-                        rv_saved.adapter = SavedItemsAdapter(it as MutableList<ArticleEntity>?, this)
+                        savedAdapter = SavedItemsAdapter(it as MutableList<ArticleEntity>?, this)
+                        rv_saved.adapter = savedAdapter
+                        savedAdapter.notifyDataSetChanged()
                     })
 
                     true
@@ -127,6 +133,13 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         articlesViewModel.updateSaved(article)
         articlesViewModel.callNews()
         articlesViewModel.callSavedArticles()
+        headlinesAdapter.notifyDataSetChanged()
+        articlesViewModel.getNews()
+            .observe(this, Observer{
+                headlinesAdapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
+                rv_headlines.adapter = headlinesAdapter
+                headlinesAdapter.notifyDataSetChanged()
+            })
     }
 
     override fun savedItemsClicked(article: ArticleEntity) {
@@ -147,6 +160,19 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         articlesViewModel.updateSaved(article)
         articlesViewModel.callNews()
         articlesViewModel.callSavedArticles()
+        savedAdapter.notifyDataSetChanged()
+        articlesViewModel.getSavedArticles().observe(this, Observer{
+            savedAdapter = SavedItemsAdapter(it, this)
+            rv_saved.adapter = savedAdapter
+            savedAdapter.notifyDataSetChanged()
+        })
+        headlinesAdapter.notifyDataSetChanged()
+        articlesViewModel.getNews()
+            .observe(this, Observer{
+                headlinesAdapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
+                rv_headlines.adapter = headlinesAdapter
+                headlinesAdapter.notifyDataSetChanged()
+            })
     }
 
     fun copyText(view: View){

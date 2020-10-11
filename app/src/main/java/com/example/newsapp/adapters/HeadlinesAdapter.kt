@@ -31,7 +31,12 @@ class HeadlinesAdapter(
             itemView.article_date.text = article.publishedAt
             Glide.with(itemView).load(article.imageUrl).transform(CenterCrop()).into(itemView.article_poster)
 
-
+            if(article.saved == true){
+                itemView.btnSave.setImageResource(R.drawable.ic_saved)
+            }
+            else if(article.saved == false){
+                itemView.btnSave.setImageResource(R.drawable.ic_unsaved)
+            }
 
 
 
@@ -55,16 +60,22 @@ class HeadlinesAdapter(
 
             itemView.btnSave.setOnClickListener{
 
-        if(article.saved == false){//save scenario
+                 if(article.saved == false){//save scenario
 
                     article.saved = true
 
                     Toast.makeText(context, "Article saved", Toast.LENGTH_SHORT).show()
 
-                    //itemView.btnSave.setImageResource(R.drawable.ic_saved)
+                    itemView.btnSave.setImageResource(R.drawable.ic_saved)
                 }
+                else if(  article.saved == true){
+                     article.saved = false
+                     itemView.btnSave.setImageResource(R.drawable.ic_saved)
+                     Toast.makeText(context, "Article unsaved", Toast.LENGTH_SHORT).show()
+
+                 }
                 Listener.headlineSaveStatus(article)
-                article.saved= false
+                notifyDataSetChanged()
             }
         }
     }

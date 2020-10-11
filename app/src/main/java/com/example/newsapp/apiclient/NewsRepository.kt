@@ -105,6 +105,7 @@ object NewsRepository {
         }
         else{
             Log.d("saved","Empty")
+            newsListLiveData.postValue(savedList)
         }
         return newsListLiveData
 

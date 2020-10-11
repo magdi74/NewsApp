@@ -40,7 +40,7 @@ class SavedItemsAdapter(private val List: MutableList<ArticleEntity>?, var Liste
                     article.saved = true
                     itemView.btnSave.setImageResource(R.drawable.ic_saved)
                 }
-                Listener.headlineSaveStatus(article)
+                Listener.savedItemsSaved(article)
             }
         }
     }
