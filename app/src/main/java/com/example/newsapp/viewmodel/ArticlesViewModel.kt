@@ -23,8 +23,8 @@ class ArticlesViewModel(application: Application) : AndroidViewModel(application
         return mutableHeadlines
     }
 
-    fun callNews(){
-        mutableHeadlines = NewsRepository.getNews()
+    fun callNews(page: Int){
+        mutableHeadlines = NewsRepository.getNews(page)
     }
 
     fun getSavedArticles(): LiveData<MutableList<ArticleEntity>>{

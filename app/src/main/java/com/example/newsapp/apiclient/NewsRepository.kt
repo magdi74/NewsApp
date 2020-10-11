@@ -25,15 +25,15 @@ object NewsRepository {
         appDatabase = ArticlesDatabase.getDatabaseInstance(context)
     }
 
-    fun getNews(): MutableLiveData<MutableList<ArticleEntity>> {
+    fun getNews(pagenum: Int = 1): MutableLiveData<MutableList<ArticleEntity>> {
         val newsListLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
 
         if (articlesList.isNotEmpty()) {
-            newsListLiveData.postValue(articlesList)
+           newsListLiveData.postValue(articlesList)
             return newsListLiveData
         }
 
-        apiClient.getTopHeadlines().enqueue(object : Callback<ArticlesResponse> {
+        apiClient.getTopHeadlines(page = pagenum).enqueue(object : Callback<ArticlesResponse> {
 
             override fun onResponse(call: Call<ArticlesResponse>, response: Response<ArticlesResponse>) {
 
