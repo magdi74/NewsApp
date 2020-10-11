@@ -33,10 +33,12 @@ class SavedItemsAdapter(private val List: MutableList<ArticleEntity>?, var Liste
 
             itemView.btnSave.setOnClickListener{
                 if(article.saved == true){//unsave scenario
+
                     article.saved = false
                     itemView.btnSave.setImageResource(R.drawable.ic_unsaved)
                 }
                 else if(article.saved == false){//save scenario
+
                     article.saved = true
                     itemView.btnSave.setImageResource(R.drawable.ic_saved)
                 }
@@ -44,6 +46,7 @@ class SavedItemsAdapter(private val List: MutableList<ArticleEntity>?, var Liste
             }
         }
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder
             = NewsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.saved_articles_card,parent,false))
 

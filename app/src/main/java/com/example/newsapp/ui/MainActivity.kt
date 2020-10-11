@@ -1,9 +1,7 @@
-package com.example.newsapp
+package com.example.newsapp.ui
 
-import android.app.Activity
 import android.content.ClipData
 import android.content.ClipboardManager
-import android.content.Context
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,18 +13,16 @@ import androidx.appcompat.app.ActionBar
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.example.newsapp.R
 import com.example.newsapp.adapters.HeadlinesAdapter
 import com.example.newsapp.adapters.SavedItemsAdapter
 import com.example.newsapp.database.ArticleEntity
-import com.example.newsapp.models.Article
 import com.example.newsapp.tools.Constants
 import com.example.newsapp.viewmodel.ArticlesViewModel
-import com.example.newsapp.ui.destinations.ItemDetailsFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_headlines.*
 import kotlinx.android.synthetic.main.fragment_item_details.*
@@ -48,8 +44,6 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         setContentView(R.layout.activity_main)
         var B : ActionBar? = supportActionBar
         B?.hide()
-
-
 
         headlinesAdapter = HeadlinesAdapter(mutableListOf(), this)
         headlinesLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
@@ -120,13 +114,8 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
             }
 
         }
-
-
-
         attachOnScrollListener(this, this)
     }
-
-
     override fun headlineClicked(article: ArticleEntity) {
         articleMain = article
         detailsFrag.headline_details.text = article.title
@@ -199,6 +188,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         clipboard?.setPrimaryClip(clip)
 
     }
+
     override fun onBackPressed() {
         if (web_frag.web_view.canGoBack())web_frag.web_view.goBack()
     }

@@ -12,13 +12,11 @@ import com.example.newsapp.R
 import com.example.newsapp.database.ArticleEntity
 import kotlinx.android.synthetic.main.news_card.view.*
 
-private val context: Context? = null
 class HeadlinesAdapter(
     private val List: MutableList<ArticleEntity>?,
     var Listener: HeadlineListener
 ):
     RecyclerView.Adapter<HeadlinesAdapter.NewsViewHolder>() {
-
     interface HeadlineListener {
         fun headlineClicked(article: ArticleEntity)
         fun headlineSaveStatus(article: ArticleEntity)
@@ -31,56 +29,26 @@ class HeadlinesAdapter(
             itemView.article_date.text = article.publishedAt
             Glide.with(itemView).load(article.imageUrl).transform(CenterCrop()).into(itemView.article_poster)
 
-            if(article.saved == true){
-                itemView.btnSave.setImageResource(R.drawable.ic_saved)
-            }
-            else if(article.saved == false){
-                itemView.btnSave.setImageResource(R.drawable.ic_unsaved)
-            }
-
-
-
-           /* if (article.saved == true){
-               // Toast.makeText(context, "Article saved", Toast.LENGTH_SHORT).show()
-
-              //  itemView.btnSave.setImageResource(R.drawable.ic_saved)
-
-            }else if(article.saved == false){
-
-             //   Toast.makeText(context, "Article Unsaved", Toast.LENGTH_SHORT).show()
-                //itemView.btnSave.setImageResource(R.drawable.ic_unsaved)
-            }
-
-            */
             itemView.setOnClickListener {
                 Listener.headlineClicked(article)
                 Listener.headlineSaveStatus(article)
             }
+
             val context = itemView.context
 
             itemView.btnSave.setOnClickListener{
-
                  if(article.saved == false){//save scenario
 
                     article.saved = true
-
                     Toast.makeText(context, "Article saved", Toast.LENGTH_SHORT).show()
-
-                    itemView.btnSave.setImageResource(R.drawable.ic_saved)
                 }
-                else if(  article.saved == true){
-                     article.saved = false
-                     itemView.btnSave.setImageResource(R.drawable.ic_saved)
-                     Toast.makeText(context, "Article unsaved", Toast.LENGTH_SHORT).show()
-
-                 }
                 Listener.headlineSaveStatus(article)
                 notifyDataSetChanged()
             }
         }
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder
-            = NewsViewHolder(
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder = NewsViewHolder(
 
         LayoutInflater.from(parent.context).inflate(
             R.layout.news_card,

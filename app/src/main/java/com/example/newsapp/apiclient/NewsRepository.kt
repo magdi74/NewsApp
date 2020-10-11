@@ -13,7 +13,7 @@ import com.example.newsapp.models.Source
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-//Handle fresh install and no network
+
 object NewsRepository {
     private var apiClient = NewsClient.apiServices
 
@@ -68,7 +68,7 @@ object NewsRepository {
 
         return newsListLiveData
     }
-
+// changes a List of Acticles to List of ArticleEntity
     private fun toEntity(modelList: MutableList<Article>): MutableList<ArticleEntity>{
         var entityList: MutableList<ArticleEntity> = mutableListOf()
         for( i in 0 until modelList.size){
@@ -89,19 +89,17 @@ object NewsRepository {
         }
         return entityList
     }
-
+    // get Saved Articles Function
     fun getSavedArticles(): MutableLiveData<MutableList<ArticleEntity>>{
 
         val newsListLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
 
         var savedList: MutableList<ArticleEntity> = mutableListOf()
-        //savedList = appDatabase.ArticlesDao().getSavedArticles()
         savedList = appDatabase.ArticlesDao().getCachedArticles().filter{it.saved == true}.distinct().toMutableList()
 
         if (savedList.isNotEmpty()) {
             Log.d("saved","Got Cached")
             newsListLiveData.postValue(savedList)
-            //appDatabase.ArticlesDao().insertArticles(savedList)
         }
         else{
             Log.d("saved","Empty")
@@ -110,7 +108,7 @@ object NewsRepository {
         return newsListLiveData
 
     }
-
+    // Updates the Saved Articles
     fun updateArticles(article: ArticleEntity){
         appDatabase.ArticlesDao().updateArticleSaveStatus(article)
         appDatabase.ArticlesDao().insertArticles(article)
