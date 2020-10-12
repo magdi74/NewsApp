@@ -122,9 +122,6 @@ object NewsRepository {
                 if(apiEntities[i].url==saved[j].url){
                     articleEntities.add(saved[j])
                 }
-                else{
-                    articleEntities.add(apiEntities[i])
-                }
             }
         }
         return articleEntities
