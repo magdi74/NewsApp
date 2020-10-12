@@ -44,6 +44,7 @@ class HeadlinesAdapter(
                 }
                 Listener.headlineSaveStatus(article)
                 notifyDataSetChanged()
+                article.saved = false
             }
         }
     }

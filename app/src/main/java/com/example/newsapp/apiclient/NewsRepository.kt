@@ -25,15 +25,15 @@ object NewsRepository {
         appDatabase = ArticlesDatabase.getDatabaseInstance(context)
     }
 
-    fun getNews(pagenum: Int = 1): MutableLiveData<MutableList<ArticleEntity>> {
+    @JvmOverloads
+    fun getNews(page: Int = 1): MutableLiveData<MutableList<ArticleEntity>> {
         val newsListLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
 
         if (articlesList.isNotEmpty()) {
            newsListLiveData.postValue(articlesList)
             return newsListLiveData
         }
-
-        apiClient.getTopHeadlines(page = pagenum).enqueue(object : Callback<ArticlesResponse> {
+        apiClient.getTopHeadlines(page = page).enqueue(object : Callback<ArticlesResponse> {
 
             override fun onResponse(call: Call<ArticlesResponse>, response: Response<ArticlesResponse>) {
 
@@ -121,6 +121,9 @@ object NewsRepository {
             for(j in 0 until saved.size){
                 if(apiEntities[i].url==saved[j].url){
                     articleEntities.add(saved[j])
+                }
+                else{
+                    articleEntities.add(apiEntities[j])
                 }
             }
         }
