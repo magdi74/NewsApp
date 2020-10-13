@@ -133,7 +133,6 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         detailsFrag.article_date_details.text = article.publishedAt
         detailsFrag.article_source_details.text = article.source?.name
         Glide.with(this).load(article.imageUrl).transform(CenterCrop()).into(detailsFrag.banner)
-        headlineSaveStatus(article)
         var fragment : FragmentManager
         fragment = supportFragmentManager
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
@@ -146,6 +145,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         articlesViewModel.callSavedArticles()
         headlinesAdapter.notifyDataSetChanged()
        // attachOnScrollListener(this,MainActivity())
+        attachScrollListener()
        /* articlesViewModel.getNews()
             .observe(this, Observer{
                 headlinesAdapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
@@ -161,7 +161,6 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         detailsFrag.article_date_details.text = article.publishedAt
         detailsFrag.article_source_details.text = article.source?.name
         Glide.with(this).load(article.imageUrl).transform(CenterCrop()).into(detailsFrag.banner)
-
         var fragment : FragmentManager
         fragment = supportFragmentManager
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()

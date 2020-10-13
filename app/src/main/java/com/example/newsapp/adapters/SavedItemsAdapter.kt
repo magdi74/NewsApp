@@ -19,7 +19,6 @@ class SavedItemsAdapter(private val List: MutableList<ArticleEntity>?, var Liste
     interface SavedItemsListener {
         fun savedItemsClicked(article: ArticleEntity)
         fun savedItemsSaved(article:ArticleEntity)
-        fun headlineSaveStatus(article: ArticleEntity)
     }
 
     inner class NewsViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
