@@ -51,7 +51,31 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         var B : ActionBar? = supportActionBar
         B?.hide()
 
-        Toast.makeText(applicationContext, "Press on Headlines Icon to Refresh", Toast.LENGTH_LONG).show()
+        //Toast.makeText(applicationContext, "Press on Headlines Icon to Refresh", Toast.LENGTH_LONG).show()
+
+        btn_refresh.setOnClickListener{
+            var fragManager = supportFragmentManager
+            fragManager.beginTransaction().show(headLinesFrag).hide(savedFrag).hide(
+                detailsFrag
+            ).commit()
+
+            rv_headlines.adapter = headlinesAdapter
+            rv_headlines.layoutManager = headlinesLayoutManager
+
+            prevFrag = currentFrag
+            currentFrag = R.id.headLinesFrag
+
+            articlesViewModel.callNews(pageNumber)
+            attachScrollListener()
+            articlesViewModel.getNews().observe(this, Observer {
+                headlinesAdapter = HeadlinesAdapter(it , this)
+                rv_headlines.adapter = headlinesAdapter
+                headlinesAdapter.notifyDataSetChanged()
+                attachScrollListener()
+
+            })
+            btn_refresh.visibility = View.GONE
+        }
 
         currentFrag = R.id.headLinesFrag
         prevFrag = R.id.headLinesFrag
@@ -151,7 +175,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
 
         prevFrag = currentFrag
-        currentFrag = detailsFrag
+        currentFrag = R.id.detailsFrag
 
     }
 
