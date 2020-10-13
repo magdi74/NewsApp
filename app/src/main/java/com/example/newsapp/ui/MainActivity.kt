@@ -10,6 +10,7 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -35,6 +36,9 @@ lateinit var savedAdapter: SavedItemsAdapter
 lateinit var headlinesAdapter:  HeadlinesAdapter
 lateinit var headlinesLayoutManager: LinearLayoutManager
 var pageNumber: Int = 1
+lateinit var currentFrag: Fragment
+lateinit var prevFrag: Fragment
+
 
 class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, SavedItemsAdapter.SavedItemsListener {
     var backPressedTime: Long = 0
@@ -47,6 +51,8 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         var B : ActionBar? = supportActionBar
         B?.hide()
 
+        currentFrag = headLinesFrag
+        prevFrag = headLinesFrag
 
         headlinesAdapter = HeadlinesAdapter(mutableListOf(), this)
         headlinesLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -88,6 +94,8 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                     rv_headlines.adapter = headlinesAdapter
                     rv_headlines.layoutManager = headlinesLayoutManager
 
+                    prevFrag = currentFrag
+                    currentFrag = headLinesFrag
 
                     articlesViewModel.callNews(pageNumber)
                     attachScrollListener()
@@ -106,6 +114,9 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                     fragManager.beginTransaction().show(savedFrag).hide(headLinesFrag).hide(
                         detailsFrag
                     ).commit()
+
+                    prevFrag = currentFrag
+                    currentFrag = savedFrag
 
                     rv_saved.adapter = savedAdapter
                     rv_saved.layoutManager = savedLayoutManager
@@ -137,6 +148,9 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         fragment = supportFragmentManager
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
 
+        prevFrag = currentFrag
+        currentFrag = detailsFrag
+
     }
 
     override fun headlineSaveStatus(article: ArticleEntity) {
@@ -164,6 +178,9 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         var fragment : FragmentManager
         fragment = supportFragmentManager
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
+
+        prevFrag = currentFrag
+        currentFrag = detailsFrag
 
     }
 
@@ -258,5 +275,4 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
             }
         })
     }
-
 }
