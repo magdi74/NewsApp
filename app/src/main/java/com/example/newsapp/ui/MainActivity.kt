@@ -51,6 +51,8 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         var B : ActionBar? = supportActionBar
         B?.hide()
 
+        Toast.makeText(applicationContext, "Press on Headlines Icon to Refresh", Toast.LENGTH_LONG).show()
+
         currentFrag = R.id.headLinesFrag
         prevFrag = R.id.headLinesFrag
 
