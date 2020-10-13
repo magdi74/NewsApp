@@ -36,8 +36,8 @@ lateinit var savedAdapter: SavedItemsAdapter
 lateinit var headlinesAdapter:  HeadlinesAdapter
 lateinit var headlinesLayoutManager: LinearLayoutManager
 var pageNumber: Int = 1
-lateinit var currentFrag: Fragment
-lateinit var prevFrag: Fragment
+var prevFrag: Int = 0
+var currentFrag: Int = 0
 
 
 class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, SavedItemsAdapter.SavedItemsListener {
@@ -51,8 +51,8 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         var B : ActionBar? = supportActionBar
         B?.hide()
 
-        currentFrag = headLinesFrag
-        prevFrag = headLinesFrag
+        currentFrag = R.id.headLinesFrag
+        prevFrag = R.id.headLinesFrag
 
         headlinesAdapter = HeadlinesAdapter(mutableListOf(), this)
         headlinesLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -95,7 +95,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                     rv_headlines.layoutManager = headlinesLayoutManager
 
                     prevFrag = currentFrag
-                    currentFrag = headLinesFrag
+                    currentFrag = R.id.headLinesFrag
 
                     articlesViewModel.callNews(pageNumber)
                     attachScrollListener()
@@ -116,7 +116,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                     ).commit()
 
                     prevFrag = currentFrag
-                    currentFrag = savedFrag
+                    currentFrag = R.id.savedFrag
 
                     rv_saved.adapter = savedAdapter
                     rv_saved.layoutManager = savedLayoutManager
@@ -180,7 +180,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
 
         prevFrag = currentFrag
-        currentFrag = detailsFrag
+        currentFrag = R.id.detailsFrag
 
     }
 
@@ -223,12 +223,37 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
             super.onBackPressed();
             return;
         } else {
-            backToast = Toast.makeText(
+            /*backToast = Toast.makeText(
                 getBaseContext(),
                 "Press back again to exit",
                 Toast.LENGTH_SHORT
             );
-            backToast.show();
+            backToast.show();*/
+
+            when(currentFrag){
+                R.id.headLinesFrag -> finish()
+                R.id.savedFrag -> {
+                    if(prevFrag == R.id.headLinesFrag){
+                        supportFragmentManager.beginTransaction()
+                            .show(headLinesFrag).hide(savedFrag).hide(detailsFrag).commit()
+                    }
+                    else if(prevFrag == R.id.detailsFrag)
+                        supportFragmentManager.beginTransaction()
+                            .show(detailsFrag).hide(savedFrag).hide(headLinesFrag).commit()
+                }
+                R.id.detailsFrag -> {
+                    if(prevFrag == R.id.savedFrag){
+                        supportFragmentManager.beginTransaction()
+                            .show(savedFrag).hide(detailsFrag).hide(headLinesFrag).commit()
+                    }
+                    else if(prevFrag == R.id.headLinesFrag){
+                        supportFragmentManager.beginTransaction()
+                            .show(headLinesFrag).hide(savedFrag).hide(detailsFrag).commit()
+
+                    }
+
+                }
+            }
         }
         backPressedTime = System.currentTimeMillis();
     }
