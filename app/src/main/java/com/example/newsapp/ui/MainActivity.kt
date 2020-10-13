@@ -262,20 +262,27 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                     if(prevFrag == R.id.headLinesFrag){
                         supportFragmentManager.beginTransaction()
                             .show(headLinesFrag).hide(savedFrag).hide(detailsFrag).commit()
+                        prevFrag = R.id.headLinesFrag
+                        currentFrag = R.id.headLinesFrag
                     }
                     else if(prevFrag == R.id.detailsFrag)
                         supportFragmentManager.beginTransaction()
                             .show(detailsFrag).hide(savedFrag).hide(headLinesFrag).commit()
+                    prevFrag = R.id.savedFrag
+                    currentFrag = R.id.detailsFrag
                 }
                 R.id.detailsFrag -> {
                     if(prevFrag == R.id.savedFrag){
                         supportFragmentManager.beginTransaction()
                             .show(savedFrag).hide(detailsFrag).hide(headLinesFrag).commit()
+                        prevFrag = R.id.detailsFrag
+                        currentFrag = R.id.savedFrag
                     }
                     else if(prevFrag == R.id.headLinesFrag){
                         supportFragmentManager.beginTransaction()
                             .show(headLinesFrag).hide(savedFrag).hide(detailsFrag).commit()
-
+                        prevFrag = R.id.detailsFrag
+                        currentFrag = R.id.headLinesFrag
                     }
 
                 }
