@@ -264,12 +264,16 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                             .show(headLinesFrag).hide(savedFrag).hide(detailsFrag).commit()
                         prevFrag = R.id.headLinesFrag
                         currentFrag = R.id.headLinesFrag
+
+                        bottomNavMenu.menu.getItem(0).isChecked = true
                     }
                     else if(prevFrag == R.id.detailsFrag)
                         supportFragmentManager.beginTransaction()
                             .show(detailsFrag).hide(savedFrag).hide(headLinesFrag).commit()
-                    prevFrag = R.id.savedFrag
-                    currentFrag = R.id.detailsFrag
+                        prevFrag = R.id.savedFrag
+                        currentFrag = R.id.detailsFrag
+
+                        bottomNavMenu.menu.getItem(1).isChecked = true
                 }
                 R.id.detailsFrag -> {
                     if(prevFrag == R.id.savedFrag){
@@ -277,12 +281,16 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                             .show(savedFrag).hide(detailsFrag).hide(headLinesFrag).commit()
                         prevFrag = R.id.detailsFrag
                         currentFrag = R.id.savedFrag
+
+                        bottomNavMenu.menu.getItem(1).isChecked = true
                     }
                     else if(prevFrag == R.id.headLinesFrag){
                         supportFragmentManager.beginTransaction()
                             .show(headLinesFrag).hide(savedFrag).hide(detailsFrag).commit()
                         prevFrag = R.id.detailsFrag
                         currentFrag = R.id.headLinesFrag
+
+                        bottomNavMenu.menu.getItem(0).isChecked = true
                     }
 
                 }
