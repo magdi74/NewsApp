@@ -34,18 +34,6 @@ class HeadlinesAdapter(
                 Listener.headlineSaveStatus(article)
             }
 
-            val context = itemView.context
-
-            itemView.btnSave.setOnClickListener{
-                 if(article.saved == false){//save scenario
-
-                    article.saved = true
-                    Toast.makeText(context, "Article saved", Toast.LENGTH_SHORT).show()
-                }
-                Listener.headlineSaveStatus(article)
-                notifyDataSetChanged()
-                article.saved = false
-            }
         }
     }
 

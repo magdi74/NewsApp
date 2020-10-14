@@ -46,37 +46,14 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        var B : ActionBar? = supportActionBar
-        B?.hide()
+        supportActionBar?.hide()
 
         Toast.makeText(applicationContext, "Press on Headlines Icon to Refresh", Toast.LENGTH_LONG).show()
-
-        btn_refresh.setOnClickListener{
-            var fragManager = supportFragmentManager
-            fragManager.beginTransaction().show(headLinesFrag).hide(savedFrag).hide(
-                detailsFrag
-            ).commit()
-
-            rv_headlines.adapter = headlinesAdapter
-            rv_headlines.layoutManager = headlinesLayoutManager
-
-            articlesViewModel.callNews(pageNumber)
-            attachScrollListener()
-            articlesViewModel.getNews().observe(this, Observer {
-                headlinesAdapter = HeadlinesAdapter(it , this)
-                rv_headlines.adapter = headlinesAdapter
-                headlinesAdapter.notifyDataSetChanged()
-                attachScrollListener()
-
-            })
-            btn_refresh.visibility = View.GONE
-        }
-
 
         headlinesAdapter = HeadlinesAdapter(mutableListOf(), this)
         headlinesLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
-         savedAdapter = SavedItemsAdapter(mutableListOf(), this)
+        savedAdapter = SavedItemsAdapter(mutableListOf(), this)
         var savedLayoutManager  = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         rv_headlines.adapter = headlinesAdapter
@@ -189,8 +166,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         detailsFrag.article_source_details.text = article.source?.name
         Glide.with(this).load(article.imageUrl).transform(CenterCrop()).into(detailsFrag.banner)
 
-        var fragment : FragmentManager
-        fragment = supportFragmentManager
+        var fragment : FragmentManager = supportFragmentManager
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
 
 
@@ -244,34 +220,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         }
         backPressedTime = System.currentTimeMillis();
     }
-/*
-    fun attachOnScrollListener(owner: LifecycleOwner, context: HeadlinesAdapter.HeadlineListener){
-        rv_headlines.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                val totalItems = headlinesLayoutManager.itemCount
-                val visibleItemsCount = headlinesLayoutManager.childCount
-                val firstVisibleItem = headlinesLayoutManager.findFirstVisibleItemPosition()
 
-                if (firstVisibleItem + visibleItemsCount >= totalItems / 2) {
-                    rv_headlines.removeOnScrollListener(this)
-                    if (pageNumber <= Constants.MAX_PAGES) {
-                        pageNumber++
-                        articlesViewModel.callNews(pageNumber)
-                        articlesViewModel.getNews()
-                            .observe(owner, Observer {
-                                headlinesAdapter = HeadlinesAdapter(
-                                    it as MutableList<ArticleEntity>?,
-                                    context
-                                )
-                                rv_headlines.adapter = headlinesAdapter
-                                headlinesAdapter.notifyDataSetChanged()
-                            })
-                        headlinesAdapter.notifyDataSetChanged()
-                    }
-                }
-            }
-        })
-    }*/
     fun attachScrollListener(){
         rv_headlines.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {

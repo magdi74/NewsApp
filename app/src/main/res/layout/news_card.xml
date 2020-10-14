@@ -80,15 +80,6 @@
             app:layout_constraintStart_toEndOf="@+id/article_poster"
             app:layout_constraintBottom_toBottomOf="@id/article_poster" />
 
-        <ImageButton
-            android:id="@+id/btnSave"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/ic_unsaved"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/article_poster" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
