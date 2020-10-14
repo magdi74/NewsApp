@@ -92,7 +92,4 @@ class HeadlinesFragment : Fragment()  , HeadlinesAdapter.HeadlineListener {
         fragment?.beginTransaction()?.show(detailsFrag)?.hide(headLinesFrag)?.hide(savedFrag)?.commit()
 
     }
-
-
-
 }

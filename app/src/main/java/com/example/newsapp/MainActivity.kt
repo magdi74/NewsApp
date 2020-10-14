@@ -34,7 +34,6 @@ import kotlinx.android.synthetic.main.fragment_saved_items.*
 import kotlinx.android.synthetic.main.fragment_webview.*
 import java.text.FieldPosition
 
-var saveState = 0
 lateinit var articleMain : Article
 var savedlistTest : ArrayList<Article> = ArrayList()
 
@@ -95,34 +94,6 @@ class MainActivity :  AppCompatActivity() , SavedItemsAdapter.SavedItemsListener
         }
 
     }
-
-    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
-        super.onSaveInstanceState(outState, outPersistentState)
-        var counter = 0
-        outState.putInt("ListSize", savedlistTest.size)
-        for(articles in savedlistTest)
-        {
-            outState.putString("article"+counter,Gson().toJson(articles))
-            counter++
-        }
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        var size = savedInstanceState.getInt("ListSize")
-        for(i in 0 until size)
-        {
-            savedlistTest.add(Gson().fromJson(savedInstanceState.getString("article"+i,null).toString(),Article::class.java))
-        }
-        lateinit var llm_saved: LinearLayoutManager
-        lateinit var SavedAdapter: SavedItemsAdapter
-        SavedAdapter = SavedItemsAdapter(savedlistTest, this)
-        llm_saved = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        saved_rv.adapter = SavedAdapter
-        saved_rv.layoutManager = llm_saved
-
-    }
-
 
     override fun savedItemsClicked(article: Article) {
         articleMain = article

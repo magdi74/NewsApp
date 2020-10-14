@@ -52,7 +52,7 @@ class ItemDetailsFragment : Fragment() {
             //var iterator = savedlistTest.iterator()
             if(savedlistTest.isEmpty())
             {
-                Toast.makeText(activity,"Empty List Article Saved",Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity,"Article Saved",Toast.LENGTH_SHORT).show()
                 savedlistTest.add(articleMain)
             }
             else
@@ -80,19 +80,4 @@ class ItemDetailsFragment : Fragment() {
         }
         return view
     }
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-
-        super.onCreate(savedInstanceState)
-
-    }
-
-
-
-
-
-
-
-
 }

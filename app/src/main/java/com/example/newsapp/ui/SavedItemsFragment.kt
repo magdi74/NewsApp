@@ -13,7 +13,6 @@ import com.example.newsapp.R
 import com.example.newsapp.adapters.SavedItemsAdapter
 import com.example.newsapp.articleMain
 import com.example.newsapp.models.Article
-import com.example.newsapp.saveState
 import com.example.newsapp.savedlistTest
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_item_details.*

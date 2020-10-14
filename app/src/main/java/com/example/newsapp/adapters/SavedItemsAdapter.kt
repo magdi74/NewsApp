@@ -4,15 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.example.newsapp.Item
 import com.example.newsapp.R
 import com.example.newsapp.models.Article
 import com.example.newsapp.savedlistTest
-import kotlinx.android.synthetic.main.news_card.view.*
 import kotlinx.android.synthetic.main.news_card.view.article_date
 import kotlinx.android.synthetic.main.news_card.view.article_headline
 import kotlinx.android.synthetic.main.news_card.view.article_poster
@@ -48,16 +44,4 @@ class SavedItemsAdapter(private val List: MutableList<Article>?, var Listener: S
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         holder.onBind(List!![position])
     }
-
-
-
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val imageView: ImageView = itemView.article_poster
-        val textView1: TextView = itemView.article_headline
-        val textView2: TextView = itemView.article_source
-        val textView3: TextView = itemView.article_date
-
-    }
-
-
 }

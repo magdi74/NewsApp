@@ -42,16 +42,4 @@ class HeadlinesAdapter(private val List: MutableList<Article>?, var Listener: He
         this.List!!.addAll(articles)
         notifyItemRangeInserted(this.List!!.size,this.List.size-1)
     }
-
-    inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        val imageView: ImageView = itemView.article_poster
-        val textView1: TextView = itemView.article_headline
-        val textView2: TextView = itemView.article_source
-        val textView3: TextView = itemView.article_date
-
-    }
-
-
-
-
 }
