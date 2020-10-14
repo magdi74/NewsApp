@@ -36,8 +36,6 @@ lateinit var savedAdapter: SavedItemsAdapter
 lateinit var headlinesAdapter:  HeadlinesAdapter
 lateinit var headlinesLayoutManager: LinearLayoutManager
 var pageNumber: Int = 1
-var prevFrag: Int = 0
-var currentFrag: Int = 0
 
 
 class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, SavedItemsAdapter.SavedItemsListener {
@@ -51,7 +49,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         var B : ActionBar? = supportActionBar
         B?.hide()
 
-        //Toast.makeText(applicationContext, "Press on Headlines Icon to Refresh", Toast.LENGTH_LONG).show()
+        Toast.makeText(applicationContext, "Press on Headlines Icon to Refresh", Toast.LENGTH_LONG).show()
 
         btn_refresh.setOnClickListener{
             var fragManager = supportFragmentManager
@@ -61,9 +59,6 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
 
             rv_headlines.adapter = headlinesAdapter
             rv_headlines.layoutManager = headlinesLayoutManager
-
-            prevFrag = currentFrag
-            currentFrag = R.id.headLinesFrag
 
             articlesViewModel.callNews(pageNumber)
             attachScrollListener()
@@ -77,8 +72,6 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
             btn_refresh.visibility = View.GONE
         }
 
-        currentFrag = R.id.headLinesFrag
-        prevFrag = R.id.headLinesFrag
 
         headlinesAdapter = HeadlinesAdapter(mutableListOf(), this)
         headlinesLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -120,8 +113,6 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                     rv_headlines.adapter = headlinesAdapter
                     rv_headlines.layoutManager = headlinesLayoutManager
 
-                    prevFrag = currentFrag
-                    currentFrag = R.id.headLinesFrag
 
                     articlesViewModel.callNews(pageNumber)
                     attachScrollListener()
@@ -141,8 +132,6 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                         detailsFrag
                     ).commit()
 
-                    prevFrag = currentFrag
-                    currentFrag = R.id.savedFrag
 
                     rv_saved.adapter = savedAdapter
                     rv_saved.layoutManager = savedLayoutManager
@@ -175,8 +164,6 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         fragment = supportFragmentManager
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
 
-        prevFrag = currentFrag
-        currentFrag = R.id.detailsFrag
 
     }
 
@@ -206,8 +193,6 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         fragment = supportFragmentManager
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
 
-        prevFrag = currentFrag
-        currentFrag = R.id.detailsFrag
 
     }
 
@@ -256,46 +241,6 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                 Toast.LENGTH_SHORT
             );
             backToast.show();*/
-
-            when(currentFrag){
-                R.id.headLinesFrag -> finish()
-                R.id.savedFrag -> {
-                    if(prevFrag == R.id.headLinesFrag){
-                        supportFragmentManager.beginTransaction()
-                            .show(headLinesFrag).hide(savedFrag).hide(detailsFrag).commit()
-                        prevFrag = R.id.headLinesFrag
-                        currentFrag = R.id.headLinesFrag
-
-                        bottomNavMenu.menu.getItem(0).isChecked = true
-                    }
-                    else if(prevFrag == R.id.detailsFrag)
-                        supportFragmentManager.beginTransaction()
-                            .show(detailsFrag).hide(savedFrag).hide(headLinesFrag).commit()
-                        prevFrag = R.id.savedFrag
-                        currentFrag = R.id.detailsFrag
-
-                        bottomNavMenu.menu.getItem(1).isChecked = true
-                }
-                R.id.detailsFrag -> {
-                    if(prevFrag == R.id.savedFrag){
-                        supportFragmentManager.beginTransaction()
-                            .show(savedFrag).hide(detailsFrag).hide(headLinesFrag).commit()
-                        prevFrag = R.id.detailsFrag
-                        currentFrag = R.id.savedFrag
-
-                        bottomNavMenu.menu.getItem(1).isChecked = true
-                    }
-                    else if(prevFrag == R.id.headLinesFrag){
-                        supportFragmentManager.beginTransaction()
-                            .show(headLinesFrag).hide(savedFrag).hide(detailsFrag).commit()
-                        prevFrag = R.id.detailsFrag
-                        currentFrag = R.id.headLinesFrag
-
-                        bottomNavMenu.menu.getItem(0).isChecked = true
-                    }
-
-                }
-            }
         }
         backPressedTime = System.currentTimeMillis();
     }
