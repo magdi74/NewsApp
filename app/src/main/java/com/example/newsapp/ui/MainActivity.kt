@@ -10,7 +10,6 @@ import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -37,7 +36,6 @@ lateinit var headlinesAdapter:  HeadlinesAdapter
 lateinit var headlinesLayoutManager: LinearLayoutManager
 var pageNumber: Int = 1
 
-
 class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, SavedItemsAdapter.SavedItemsListener {
     var backPressedTime: Long = 0
     lateinit var backToast: Toast
@@ -46,7 +44,8 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        supportActionBar?.hide()
+        var B : ActionBar? = supportActionBar
+        B?.hide()
 
         Toast.makeText(applicationContext, "Press on Headlines Icon to Refresh", Toast.LENGTH_LONG).show()
 
@@ -109,7 +108,6 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
                         detailsFrag
                     ).commit()
 
-
                     rv_saved.adapter = savedAdapter
                     rv_saved.layoutManager = savedLayoutManager
 
@@ -127,7 +125,6 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
             }
 
         }
-       // attachOnScrollListener(this, this)
     }
     override fun headlineClicked(article: ArticleEntity) {
         articleMain = article
@@ -136,11 +133,9 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         detailsFrag.article_date_details.text = article.publishedAt
         detailsFrag.article_source_details.text = article.source?.name
         Glide.with(this).load(article.imageUrl).transform(CenterCrop()).into(detailsFrag.banner)
-        headlineSaveStatus(article)
         var fragment : FragmentManager
         fragment = supportFragmentManager
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
-
 
     }
 
@@ -149,13 +144,7 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         articlesViewModel.callNews(pageNumber)
         articlesViewModel.callSavedArticles()
         headlinesAdapter.notifyDataSetChanged()
-       // attachOnScrollListener(this,MainActivity())
-       /* articlesViewModel.getNews()
-            .observe(this, Observer{
-                headlinesAdapter = HeadlinesAdapter(it as MutableList<ArticleEntity>?, this)
-                rv_headlines.adapter = headlinesAdapter
-                headlinesAdapter.notifyDataSetChanged()
-            })*/
+        attachScrollListener()
     }
 
     override fun savedItemsClicked(article: ArticleEntity) {
@@ -165,10 +154,9 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         detailsFrag.article_date_details.text = article.publishedAt
         detailsFrag.article_source_details.text = article.source?.name
         Glide.with(this).load(article.imageUrl).transform(CenterCrop()).into(detailsFrag.banner)
-
-        var fragment : FragmentManager = supportFragmentManager
+        var fragment : FragmentManager
+        fragment = supportFragmentManager
         fragment.beginTransaction().show(detailsFrag).hide(headLinesFrag).hide(savedFrag).commit()
-
 
     }
 
@@ -220,7 +208,6 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
         }
         backPressedTime = System.currentTimeMillis();
     }
-
     fun attachScrollListener(){
         rv_headlines.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
@@ -236,4 +223,5 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
             }
         })
     }
+
 }

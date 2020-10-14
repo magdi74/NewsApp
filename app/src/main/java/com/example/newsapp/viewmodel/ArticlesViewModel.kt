@@ -1,18 +1,15 @@
 package com.example.newsapp.viewmodel
 
 import android.app.Application
-import android.content.Context
-import android.os.AsyncTask
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.example.newsapp.apiclient.NewsRepository
 import com.example.newsapp.database.ArticleEntity
 
 class ArticlesViewModel(application: Application) : AndroidViewModel(application){
     init {
-        // Ensue database is initialized whenever ViewModel is created.
+        // database is initialized whenever ViewModel is created.
         NewsRepository.initDataBase(application)
     }
 
@@ -36,25 +33,6 @@ class ArticlesViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun updateSaved(article: ArticleEntity){
-     //   saveasync().execute(article)
-
-         NewsRepository.updateArticles(article)
+        NewsRepository.updateArticles(article)
     }
-/*
-    inner class saveasync : AsyncTask<ArticleEntity,Unit,Unit> (){
-        override fun doInBackground(vararg params: ArticleEntity?) {
-            NewsRepository.updateArticles(params[0]!!)
-           // updateSaved(params[0]!!)
-        }
-
-        override fun onPostExecute(result: Unit?) {
-            super.onPostExecute(result)
-            callSavedArticles()
-            callNews()
-
-        }
-
-
-    }
-*/
 }

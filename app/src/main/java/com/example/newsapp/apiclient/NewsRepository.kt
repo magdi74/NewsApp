@@ -30,7 +30,7 @@ object NewsRepository {
         val newsListLiveData: MutableLiveData<MutableList<ArticleEntity>> = MutableLiveData()
 
         if (articlesList.isNotEmpty()) {
-           newsListLiveData.postValue(articlesList)
+            newsListLiveData.postValue(articlesList)
             return newsListLiveData
         }
         apiClient.getTopHeadlines(page = page).enqueue(object : Callback<ArticlesResponse> {
@@ -68,7 +68,8 @@ object NewsRepository {
 
         return newsListLiveData
     }
-// changes a List of Acticles to List of ArticleEntity
+
+    // changes a List of Acticles to List of ArticleEntity
     private fun toEntity(modelList: MutableList<Article>): MutableList<ArticleEntity>{
         var entityList: MutableList<ArticleEntity> = mutableListOf()
         for( i in 0 until modelList.size){
@@ -89,6 +90,7 @@ object NewsRepository {
         }
         return entityList
     }
+
     // get Saved Articles Function
     fun getSavedArticles(): MutableLiveData<MutableList<ArticleEntity>>{
 
@@ -103,11 +105,13 @@ object NewsRepository {
         }
         else{
             Log.d("saved","Empty")
+            savedList.remove(articlesList)
             newsListLiveData.postValue(savedList)
         }
         return newsListLiveData
 
     }
+
     // Updates the Saved Articles
     fun updateArticles(article: ArticleEntity){
         appDatabase.ArticlesDao().updateArticleSaveStatus(article)
@@ -123,7 +127,7 @@ object NewsRepository {
                     articleEntities.add(saved[j])
                 }
                 else{
-                    articleEntities.add(apiEntities[j])
+                    return articleEntities
                 }
             }
         }

@@ -33,7 +33,6 @@ class HeadlinesAdapter(
                 Listener.headlineClicked(article)
                 Listener.headlineSaveStatus(article)
             }
-
         }
     }
 
