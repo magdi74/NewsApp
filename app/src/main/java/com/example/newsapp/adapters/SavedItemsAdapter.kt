@@ -10,11 +10,10 @@ import com.example.newsapp.R
 import com.example.newsapp.apiclient.NewsRepository
 import com.example.newsapp.database.ArticleEntity
 import com.example.newsapp.models.Article
-import kotlinx.android.synthetic.main.news_card.view.*
-import kotlinx.android.synthetic.main.news_card.view.article_date
-import kotlinx.android.synthetic.main.news_card.view.article_headline
-import kotlinx.android.synthetic.main.news_card.view.article_poster
-import kotlinx.android.synthetic.main.news_card.view.article_source
+import kotlinx.android.synthetic.main.saved_articles_card.view.article_date
+import kotlinx.android.synthetic.main.saved_articles_card.view.article_headline
+import kotlinx.android.synthetic.main.saved_articles_card.view.article_poster
+import kotlinx.android.synthetic.main.saved_articles_card.view.article_source
 import kotlinx.android.synthetic.main.saved_articles_card.view.*
 
 
