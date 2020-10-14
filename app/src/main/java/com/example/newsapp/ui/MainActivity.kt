@@ -211,12 +211,12 @@ class MainActivity :  AppCompatActivity() , HeadlinesAdapter.HeadlineListener, S
             super.onBackPressed();
             return;
         } else {
-            /*backToast = Toast.makeText(
+            backToast = Toast.makeText(
                 getBaseContext(),
                 "Press back again to exit",
                 Toast.LENGTH_SHORT
             );
-            backToast.show();*/
+            backToast.show();
         }
         backPressedTime = System.currentTimeMillis();
     }
